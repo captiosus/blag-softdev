@@ -1,5 +1,5 @@
 # blag-softdev
-<hr>
+
 Member | Role
 -------|-------
 Mariya Gedrich | Leader
