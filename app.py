@@ -3,15 +3,14 @@ from flask import redirect,url_for
 import utils
 
 app = Flask(__name__)
-@app.route("/")
-@app.route("/login", methods = ["GET","POST"])
+@app.route("/", methods = ["GET","POST"])
 def login():
     if request.method == "GET":
         return render_template('login.html')
     else:
         username = request.form['username']
         password = request.form['password']
-        if !(utils.authenticate(username,password)):
+        if not(utils.authenticate(username,password)):              
             return redirect('/login')
 
 
