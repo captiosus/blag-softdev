@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,sessions
+from flask import Flask,render_template,request,session
 from flask import redirect,url_for
 import utils
 
@@ -10,7 +10,11 @@ def login():
     else:
         username = request.form['username']
         password = request.form['password']
-        if not(utils.authenticate(username,password)):              
+        if utils.authenticate(username,password): 
+            session['username'] = username
+            posts = utils.displayposts()
+            return render_template('view_posts.html',posts = posts)
+        else:             
             return redirect('/login')
 
 
@@ -18,6 +22,17 @@ def login():
 def viewposts():
     posts = utils.displayposts()
     return render_template('view_posts.html',posts = posts)
+
+@app.route("/new_post", methods = ["GET","POST"])
+def makenewpost():
+    if 'username' in session:
+        if request.method == "GET":
+            return render_template('new_post.html',s = session)
+        else:
+            newpostid = utils.nextpostid()
+            utils.createpost(newpostid,username,post)
+    else:
+        return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
