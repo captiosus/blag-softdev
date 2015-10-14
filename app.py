@@ -14,6 +14,12 @@ def login():
             return redirect('/login')
 
 
+@app.route("/view_posts")
+def viewposts():
+    posts = utils.displayposts()
+    return render_template('view_posts.html',posts = posts)
+
+
 if __name__ == "__main__":
     app.debug = True
     app.secret_key="Don't store this on github"

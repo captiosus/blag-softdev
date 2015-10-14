@@ -3,8 +3,19 @@
 <ul>
   <li><a href="/new_post.html">Create New</a></li>
 </ul>
+
+<br>
+<h2> Posts: </h2>
+
+{% for post in posts %}
 <p>
-  This is where all the posts would be displayed
+  {% print post[1] %}
 </p>
+<p>
+  - {% print post[0] %}
+</p>
+<hr>
+{% endfor%}
+
 
 
