@@ -6,7 +6,7 @@ def authenticate(username,password):
     c.execute(q,{"uname":username})
     result = c.fetchone()[0]
     return result == password
-    
+
 authenticate('bloginator','softdev')
 
 def nextpostid():
