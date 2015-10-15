@@ -1,10 +1,15 @@
 <h1>Current user: {{user}}</h1>
 
 <ul>
-  <li><a href="/new_post.html">Create New</a></li>
   <li><a href="/login">Login</a></li>
   <li><a href="/logout">Logout</a></li>
 </ul>
+
+<h2>Write New Post:</h2>
+<form method = "POST">
+  <input type="text" name="posttext">
+  <input type="submit" name="button" value="createpost">
+</form>
 
 <br>
 <h2> Posts: </h2>

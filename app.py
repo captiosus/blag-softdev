@@ -26,28 +26,27 @@ def logout():
         print 'nope'
     return redirect(url_for('viewposts'))
 
-@app.route("/view_posts")
-@app.route("/")
+@app.route("/view_posts", methods = ["GET","POST"])
+@app.route("/", methods = ["GET","POST"])
 def viewposts():
-    posts = utils.displayposts()
-    if len(session.keys())!=0:
-        print 'user'
-        user=session[session.keys()[0]]
-    else:
-        print 'guest'
-        user='guest'
-    return render_template('view_posts.html',posts = posts, user=user)
-
-@app.route("/new_post", methods = ["GET","POST"])
-def makenewpost():
-    if 'username' in session:
-        if request.method == "GET":
-            return render_template('new_post.html',s = session)
+    if request.method == "GET":
+        posts = utils.displayposts()
+        if len(session.keys())!=0:
+            print 'user'
+            user=session[session.keys()[0]]
         else:
-            newpostid = utils.nextpostid()
-            utils.createpost(newpostid,username,post)
+            print 'guest'
+            user='guest'
+        return render_template('view_posts.html',posts = posts, user=user)
     else:
-        return redirect(url_for('login'))
+        if len(session.keys())!=0:
+            user = session[session.keys()[0]]
+            post = request.form['posttext']
+            newpostid = utils.nextpostid()
+            utils.createpost(newpostid,user,post)
+            return redirect(url_for('viewposts'))
+        else:
+            return redirect(url_for('login'))
 
 
 if __name__ == "__main__":

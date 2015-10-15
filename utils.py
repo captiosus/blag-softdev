@@ -31,7 +31,7 @@ def deletepost(postid):
     conn.commit()
     cur.close()
 
-def updatepost(postid,username,post):
+def editpost(postid,username,post):
     conn = sqlite3.connect('blag.db')
     cur = conn.cursor()
     cur.execute('UPDATE posts SET username = ? WHERE postid = ?',(username,postid))
