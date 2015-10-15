@@ -32,20 +32,15 @@ def viewposts():
     if request.method == "GET":
         posts = utils.displayposts()
         if len(session.keys())!=0:
-            print 'user'
             user=session[session.keys()[0]]
         else:
-            print 'guest'
             user='guest'
         return render_template('view_posts.html',posts = posts, user=user)
     else:
         if len(session.keys())!=0:
             user = session[session.keys()[0]]
             if request.form['updatepost'] == 'createpost':
-                post = request.form['posttext']
-                newpostid = utils.nextpostid()
-                utils.createpost(newpostid,user,post)
-                return redirect(url_for('viewposts'))
+                return redirect(url_for('createpost'))
             else:
                 postid = request.form['updatepost']
                 post = utils.getpost(postid)
@@ -53,6 +48,17 @@ def viewposts():
         else:
             return redirect(url_for('login'))
 
+@app.route('/create_new', methods=['GET','POST',])
+def createpost():
+    if 'username' in session:
+        print request.form
+        post=request.form['posttext']
+        newpostid=utils.nextpostid()
+        utils.createpost(newpostid,user,post)
+        return redirect(url_for('viewposts'))
+    else:
+        return "you are not logged in"
+    
 # not working yet
 @app.route("/editpost", methods = ["GET","POST"])
 def editpost():
