@@ -4,7 +4,7 @@ def authenticate(username,password):
     c = conn.cursor()
     q = "SELECT password from users WHERE username=:uname"
     c.execute(q,{"uname":username})
-    result = c.fetchall()
+    result = c.fetchone()
     if len(result) == 0:
         return False
     else:
