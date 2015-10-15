@@ -8,7 +8,7 @@
 <h2>Write New Post:</h2>
 <form method = "POST">
   <input type="text" name="posttext">
-  <input type="submit" name="button" value="createpost">
+  <input type="submit" name="updatepost" value="createpost">
 </form>
 
 <br>
@@ -21,6 +21,9 @@
 <p>
   {% print post[1] %}
 </p>
+<form method = "POST">
+  <button type="submit" name="updatepost" value"' + post[0] + '">Edit post</button>
+</form>
 <hr>
 {% endfor%}
 

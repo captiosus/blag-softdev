@@ -46,3 +46,11 @@ def displayposts():
     allposts = cur.fetchall()
     cur.close()
     return allposts
+
+def getpost(postid):
+    conn = sqlite3.connect('blag.db')
+    cur = conn.cursor()
+    cur.execute('SELECT post FROM posts')
+    post = cur.fetchone()[0]
+    cur.close()
+    return post

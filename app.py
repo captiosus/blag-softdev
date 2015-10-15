@@ -41,12 +41,30 @@ def viewposts():
     else:
         if len(session.keys())!=0:
             user = session[session.keys()[0]]
-            post = request.form['posttext']
-            newpostid = utils.nextpostid()
-            utils.createpost(newpostid,user,post)
-            return redirect(url_for('viewposts'))
+            if request.form['updatepost'] == 'createpost':
+                post = request.form['posttext']
+                newpostid = utils.nextpostid()
+                utils.createpost(newpostid,user,post)
+                return redirect(url_for('viewposts'))
+            else:
+                postid = request.form['updatepost']
+                post = utils.getpost(postid)
+                return render_template('editpost.html',user = user, post = post)
         else:
             return redirect(url_for('login'))
+
+# not working yet
+@app.route("/editpost", methods = ["GET","POST"])
+def editpost():
+    if len(session.keys())!=0:
+        if request.method == "GET":
+            user = session[session.keys()[0]]
+            postid = request.form['updatepost']
+            post = utils.getpost(postid)
+            return render_template('editpost.html',user = user, post = post)
+        ##
+    else:
+        return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
