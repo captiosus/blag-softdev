@@ -3,25 +3,40 @@ from flask import redirect,url_for
 import utils
 
 app = Flask(__name__)
-@app.route("/", methods = ["GET","POST"])
+@app.route("/login", methods = ["GET","POST"])
 def login():
     if request.method == "GET":
         return render_template('login.html')
     else:
         username = request.form['username']
         password = request.form['password']
-        if utils.authenticate(username,password): 
+        if utils.authenticate(username,password):
+            print "authenticated"
             session['username'] = username
             posts = utils.displayposts()
-            return render_template('view_posts.html',posts = posts)
+            return render_template('view_posts.html',posts = posts, user=username)
         else:             
             return redirect('/login')
 
+@app.route('/logout')
+def logout():
+    if 'username' in session:
+        session.pop('username', None)
+    else:
+        print 'nope'
+    return redirect(url_for('viewposts'))
 
 @app.route("/view_posts")
+@app.route("/")
 def viewposts():
     posts = utils.displayposts()
-    return render_template('view_posts.html',posts = posts)
+    if len(session.keys())!=0:
+        print 'user'
+        user=session[session.keys()[0]]
+    else:
+        print 'guest'
+        user='guest'
+    return render_template('view_posts.html',posts = posts, user=user)
 
 @app.route("/new_post", methods = ["GET","POST"])
 def makenewpost():
