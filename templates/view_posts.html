@@ -1,31 +1,38 @@
-<h1>Current user: {{user}}</h1>
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<h1>Signed in as {{user}}</h1>
 
-<ul>
-  <li><a href="/login">Login</a></li>
-  <li><a href="/logout">Logout</a></li>
-</ul>
+		<ul>
+		  <li><a href="/login">Login</a></li>
+		  <li><a href="/logout">Logout</a></li>
+		</ul>
 
-<h2>Write New Post:</h2>
-<form method = "POST">
-  <input type="text" name="posttext">
-  <input type="submit" name="updatepost" value="createpost">
-</form>
+		<h2>Write new post:</h2>
 
-<br>
-<h2> Posts: </h2>
+		<form method="POST">
+		  <input type="text" name="posttext">
+		  <input type="submit" name="updatepost" value="createpost">
+		</form>
 
-{% for post in posts %}
-<p>
-  {% print post[2] %} :
-</p>
-<p>
-  {% print post[1] %}
-</p>
-<form method = "POST">
-  <button type="submit" name="updatepost" value"' + post[0] + '">Edit post</button>
-</form>
-<hr>
-{% endfor%}
+		<br>
 
+		<h2>Posts:</h2>
 
-
+		{% for post in posts %}
+			<p>
+				{% print post[2] %} :
+			</p>
+			<p>
+				{% print post[1] %}
+			</p>
+			<form method = "POST">
+			  <button type="submit" name="updatepost" value"' + post[0] + '">Edit post</button>
+			</form>
+			<hr>
+		{% endfor %}
+	</body>
+</html>
