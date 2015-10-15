@@ -2,10 +2,14 @@ import sqlite3
 def authenticate(username,password):
     conn = sqlite3.connect("blag.db")
     c = conn.cursor()
-    q = "SELECT password from users WHERE username=:uname" 
+    q = "SELECT password from users WHERE username=:uname"
     c.execute(q,{"uname":username})
-    result = c.fetchone()[0]
-    return result == password
+    result = c.fetchone()
+    if len(result) == 0:
+        return False
+    else:
+        pw = result[0]
+        return pw == password
 
 authenticate('bloginator','softdev')
 

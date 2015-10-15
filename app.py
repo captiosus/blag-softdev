@@ -39,8 +39,20 @@ def viewposts():
     else:
         if len(session.keys())!=0:
             user = session[session.keys()[0]]
+            print request.form
             if request.form['updatepost'] == 'createpost':
-                return redirect(url_for('createpost'))
+                 print 'creating new post'
+                 if 'username' in session:
+                     print request.form
+                     print post
+                     post=request.form['posttext']
+                     newpostid=utils.nextpostid()
+                     utils.createpost(newpostid,user,post)
+                     return redirect(url_for('viewposts'))
+                 else:
+                     return "you are not logged in"
+    
+                #return redirect(url_for('createpost'))
             else:
                 postid = request.form['updatepost']
                 post = utils.getpost(postid)
@@ -48,16 +60,19 @@ def viewposts():
         else:
             return redirect(url_for('login'))
 
-@app.route('/create_new', methods=['GET','POST',])
+'''@app.route('/create_new', methods=['GET','POST',])
 def createpost():
+    print 'creating new post'
     if 'username' in session:
         print request.form
+        print post
         post=request.form['posttext']
         newpostid=utils.nextpostid()
         utils.createpost(newpostid,user,post)
         return redirect(url_for('viewposts'))
     else:
         return "you are not logged in"
+'''
     
 # not working yet
 @app.route("/editpost", methods = ["GET","POST"])
@@ -76,4 +91,4 @@ def editpost():
 if __name__ == "__main__":
     app.debug = True
     app.secret_key="Don't store this on github"
-    app.run(host = '0.0.0.0', port = 3842)
+    app.run(host = '0.0.0.0', port = 1998)
