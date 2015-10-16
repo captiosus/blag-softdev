@@ -19,7 +19,9 @@ def authenticate(username,password):
             return False
         else:
             return True
-
+#import time
+#print (time.strftime("%H:%M:%S"))
+#print (time.strftime("%d/%m/%Y"))
 
 def getError():
     global error
