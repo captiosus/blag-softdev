@@ -2,15 +2,19 @@
 <html>
 	<head>
 		<title>Bloginator 37 000 000 000 Editing post</title>
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="static/style.css">
 	</head>
 	<body>
 		<a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
 		<ul class="nav">
-			<li class="nav"><a class="nav" href="create_account">Register</a></li>
-			<li class="nav"><a class="nav" href="logout">Logout</a></li>
-			<li class="nav"><a class="nav" href="login">Login</a></li>
-			<li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
+			{% if user %}
+				<li class="nav"><a class="nav" href="logout">Logout</a></li>
+				<li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
+			{% else %}
+				<li class="nav"><a class="nav" href="create_account">Register</a></li>
+				<li class="nav"><a class="nav" href="login">Login</a></li>
+				<li class="nav2">&nbsp;&nbsp;Not signed in</li>
+			{% endif %}
 		</ul>
 		<h2>Edit post:</h2>
 		<form method="POST" id="edit">
