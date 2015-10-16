@@ -5,17 +5,18 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-		<h1>Bloginator 37 000 000 000</h1>
+		<a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
 		<ul class="nav">
-		        <li class="nav"><a class="nav" href="create_account">Create an account</a></li>
+		        <li class="nav"><a class="nav" href="create_account">Register</a></li>
 			<li class="nav"><a class="nav" href="logout">Logout</a></li>
 			<li class="nav"><a class="nav" href="login">Login</a></li>
 			<li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
 		</ul>
 		<h2>Add new post:</h2>
-		<form method="POST">
-		  <input type="text" name="posttext">
-		  <input type="submit" name="updatepost" value="createpost">
+		<form method="POST" id="newpost">
+			<textarea form="newpost" name="posttext" rows=5 cols=100 placeholder="Enter new post &hellip; if you dare!"></textarea>
+			<br>
+			<input type="submit" name="updatepost" value="Bloginate!">
 		</form>
 		<hr>
 		{% for post in posts %}
@@ -25,8 +26,8 @@
 			<p>
 				{% print post[1] %}
 			</p>
-			<form method = "POST">
-				<button type="submit" name="updatepost" value={{ post[0] }}>Edit post</button>
+			<form method="POST">
+				<button type="submit" name="updatepost" value={{post[0]}}>Edit post</button>
 			</form>
 			<hr>
 		{% endfor %}

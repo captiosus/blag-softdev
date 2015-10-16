@@ -1,7 +1,22 @@
-<h1>Current user: {{user}}</h1>
-
-<h2>Edit Post:</h2>
-<form method = "POST" id="edit">
-  <textarea form = "edit" name = "updatepost"> {{ post }} </textarea>
-  <button type="submit" name="postid" value={{ postid }}>Submit</button>
-</form>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Bloginator 37 000 000 000 Editing post</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
+		<ul class="nav">
+			<li class="nav"><a class="nav" href="create_account">Register</a></li>
+			<li class="nav"><a class="nav" href="logout">Logout</a></li>
+			<li class="nav"><a class="nav" href="login">Login</a></li>
+			<li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
+		</ul>
+		<h2>Edit post:</h2>
+		<form method="POST" id="edit">
+			<textarea form="edit" name="updatepost" rows=30 cols=100 placeholder="Enter post"> {{post}}</textarea>
+			<br>
+			<button type="submit" name="postid" value={{postid}}>Submit</button>
+		</form>
+	</body>
+</html>

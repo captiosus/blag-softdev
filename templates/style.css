@@ -34,6 +34,21 @@ a {
 	display: block;
 }
 
+a.h1 {
+	text-decoration: none;
+	transition: .5s background-color;
+}
+
+a.h1:hover {
+	background-color: #5f005f;
+}
+
+a.nav:active {
+	background-color: #f0f;
+	color: 444;
+	cursor: default;
+}
+
 a.nav {
 	text-decoration: none;
 	color: #fff;
