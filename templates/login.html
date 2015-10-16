@@ -5,20 +5,25 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-		<a class="">Bloginator 37 000 000 000</h1>
+		<h1>Bloginator 37 000 000 000</h1>
 		<ul class="nav">
 			<li class="nav"><a class="nav" href="logout">Logout</a></li>
 			<li class="nav"><a class="nav" href="login">Login</a></li>
-			<li class="nav2">Signed in as {{user}}</li>
+			<li class="nav2">&nbsp;&nbsp;
+				{% if user %}
+					Signed in as {{user}}
+				{% else %}
+					Not signed in
+				{% endif %}
+			</li>
 		</ul>
 		<h2>Login</h2>
-		<br>
 		<form method="POST">
-		  Username: <input type="text" name="username">
+		  Username: <input type="text" name="username" placeholder="Enter username" size=42>
 		  <p/>
-		  Password <input type="password" name="password">
+		  Password <input type="password" name="password" placeholder="Enter password" size=42>
 		  <p/>
-		  <input type="submit" name="button" value="login">
+		  <input type="submit" name="button" value="Submit">
 		</form>
 	</body>
 </html>
