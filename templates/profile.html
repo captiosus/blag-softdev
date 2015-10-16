@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head><title>USER PROFILE for {{username}}</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+  </head>
+  <body>
+    <a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
+    <ul class="nav">
+      <li class="nav"><a class="nav" href="create_account">Register</a></li>
+      <li class="nav"><a class="nav" href="logout">Logout</a></li>
+      <li class="nav"><a class="nav" href="login">Login</a></li>
+      <li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
+    </ul>
+    <h1>USER: {{username}}</h1>
+    <h3>all posts by this user</h3>
+    <hr>
+    {% for post in posts %}
+    <p>
+      {% print post[2] %}
+    </p>
+    <p>
+      {print post[1] %}
+    </p>
+    <hr>
+    {% endfor %}
+  </body>
+</html>
+
+    

@@ -16,7 +16,7 @@ def login():
             posts = utils.displayposts()
             return redirect('/view_posts')
         else:             
-            return redirect('/login')
+            return render_template('login.html',error = utils.getError())
 
 @app.route('/logout')
 def logout():
@@ -60,20 +60,6 @@ def viewposts():
                 return redirect(url_for('viewposts'))
         else:
             return redirect(url_for('login'))
-
-'''@app.route('/create_new', methods=['GET','POST',])
-def createpost():
-    print 'creating new post'
-    if 'username' in session:
-        print request.form
-        print post
-        post=request.form['posttext']
-        newpostid=utils.nextpostid()
-        utils.createpost(newpostid,user,post)
-        return redirect(url_for('viewposts'))
-    else:
-        return "you are not logged in"
-'''
     
 @app.route("/create_account",methods = ["GET","POST"])
 def createaccount():
@@ -84,6 +70,12 @@ def createaccount():
         password = request.form['password']
         utils.createuser(username,password)
         return redirect('login')
+
+@app.route("/user/<username>")
+def user_profile(username=''):
+    if len(session.keys())!=0:
+        username = session[session.keys()[0]]
+    return render_template("profile.html", username=username)
 
 def is_number(s):
     try:
