@@ -1,10 +1,7 @@
 <h1>Current user: {{user}}</h1>
 
 <h2>Edit Post:</h2>
-
-<p> {{post}} </p>
-
-<form method = "POST">
-  <input type="text" name="posttext">
-  <input type="submit" name="button" value="editpost">
+<form method = "POST" id="edit">
+  <textarea form = "edit" name = "updatepost"> {{ post }} </textarea>
+  <button type="submit" name="postid" value={{ postid }}>Submit</button>
 </form>

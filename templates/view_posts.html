@@ -25,7 +25,7 @@
 				{% print post[1] %}
 			</p>
 			<form method = "POST">
-				<button type="submit" name="updatepost" value"' + post[0] + '">Edit post</button>
+				<button type="submit" name="updatepost" value={{ post[0] }}>Edit post</button>
 			</form>
 			<hr>
 		{% endfor %}

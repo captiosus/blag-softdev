@@ -43,8 +43,6 @@ def viewposts():
             if request.form['updatepost'] == 'createpost':
                  print 'creating new post'
                  if 'username' in session:
-                     print request.form
-                     print post
                      post=request.form['posttext']
                      newpostid=utils.nextpostid()
                      utils.createpost(newpostid,user,post)
@@ -53,10 +51,15 @@ def viewposts():
                      return "you are not logged in"
     
                 #return redirect(url_for('createpost'))
-            else:
+            elif is_number(request.form['updatepost']):
                 postid = request.form['updatepost']
                 post = utils.getpost(postid)
-                return render_template('editpost.html',user = user, post = post)
+                return render_template('editpost.html',postid = postid, user = user, post = post)
+            else: 
+                post = request.form['updatepost']
+                postid = request.form['postid']
+                utils.editpost(postid,user,post)
+                return redirect(url_for('viewposts'))
         else:
             return redirect(url_for('login'))
 
@@ -74,19 +77,12 @@ def createpost():
         return "you are not logged in"
 '''
     
-# not working yet
-@app.route("/editpost", methods = ["GET","POST"])
-def editpost():
-    if len(session.keys())!=0:
-        if request.method == "GET":
-            user = session[session.keys()[0]]
-            postid = request.form['updatepost']
-            post = utils.getpost(postid)
-            return render_template('editpost.html',user = user, post = post)
-        ##
-    else:
-        return redirect(url_for('login'))
-
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
 
 if __name__ == "__main__":
     app.debug = True

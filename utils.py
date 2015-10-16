@@ -54,7 +54,7 @@ def displayposts():
 def getpost(postid):
     conn = sqlite3.connect('blag.db')
     cur = conn.cursor()
-    cur.execute('SELECT post FROM posts')
+    cur.execute('SELECT post FROM posts WHERE postid=:id',{"id":postid})
     post = cur.fetchone()[0]
     cur.close()
     return post
