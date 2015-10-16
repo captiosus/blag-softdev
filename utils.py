@@ -1,15 +1,29 @@
 import sqlite3
+
+error = ""
+ 
 def authenticate(username,password):
     conn = sqlite3.connect("blag.db")
     c = conn.cursor()
     q = "SELECT password from users WHERE username=:uname"
     c.execute(q,{"uname":username})
     result = c.fetchone()
+    global error
     if result == None:
+        error = "Username does not exist"
         return False
     else:
         pw = result[0]
-        return pw == password
+        if pw != password:
+            error = "Password does not match username"
+            return False
+        else:
+            return True
+
+
+def getError():
+    global error
+    return  error
 
 authenticate('bloginator','softdev')
 

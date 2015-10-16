@@ -16,7 +16,7 @@ def login():
             posts = utils.displayposts()
             return redirect('/view_posts')
         else:             
-            return redirect('/login')
+            return render_template('login.html',error = utils.getError())
 
 @app.route('/logout')
 def logout():
