@@ -14,7 +14,7 @@ Done so far: <br>
 -Basic css styling<br>
 To be done/finished: <br>
 -Comments<br>
--User profile<br>
+-User profile(Added in last log in, requires addition in db)<br>
 -timestamps<br>
 <br>
 Deadlines: <br>
