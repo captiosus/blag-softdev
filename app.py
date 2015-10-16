@@ -34,7 +34,7 @@ def viewposts():
         if len(session.keys())!=0:
             user=session[session.keys()[0]]
         else:
-            user='guest'
+            user=''
         return render_template('view_posts.html',posts = posts, user=user)
     else:
         if len(session.keys())!=0:
