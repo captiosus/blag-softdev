@@ -5,7 +5,7 @@ def authenticate(username,password):
     q = "SELECT password from users WHERE username=:uname"
     c.execute(q,{"uname":username})
     result = c.fetchone()
-    if len(result) == 0:
+    if result == None:
         return False
     else:
         pw = result[0]
