@@ -13,6 +13,14 @@ def authenticate(username,password):
 
 authenticate('bloginator','softdev')
 
+def nextuserid():
+    conn = sqlite3.connect('blag.db')
+    cur = conn.cursor()
+    cur.execute('SELECT MAX(userid) FROM users')
+    userid = cur.fetchall()
+    cur.close()
+    return userid[0][0]+1
+
 def nextpostid():
     conn = sqlite3.connect('blag.db')
     cur = conn.cursor()
@@ -20,6 +28,14 @@ def nextpostid():
     postid = cur.fetchall()
     cur.close()
     return postid[0][0]+1
+
+def createuser(username,password):
+    conn = sqlite3.connect('blag.db')
+    cur = conn.cursor()
+    newuserid = nextuserid()
+    cur.execute('INSERT INTO users(userid,username,password) VALUES(?,?,?)',(newuserid,username,password))
+    conn.commit()
+    cur.close()
 
 def createpost(newpostid,username,post):
     conn = sqlite3.connect('blag.db')

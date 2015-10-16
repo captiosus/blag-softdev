@@ -14,7 +14,7 @@ def login():
             print "authenticated"
             session['username'] = username
             posts = utils.displayposts()
-            return render_template('view_posts.html',posts = posts, user=username)
+            return redirect('/view_posts')
         else:             
             return redirect('/login')
 
@@ -49,8 +49,6 @@ def viewposts():
                      return redirect(url_for('viewposts'))
                  else:
                      return "you are not logged in"
-    
-                #return redirect(url_for('createpost'))
             elif is_number(request.form['updatepost']):
                 postid = request.form['updatepost']
                 post = utils.getpost(postid)
@@ -77,6 +75,16 @@ def createpost():
         return "you are not logged in"
 '''
     
+@app.route("/create_account",methods = ["GET","POST"])
+def createaccount():
+    if request.method == "GET":
+        return render_template("create_account.html")
+    else:
+        username = request.form['username']
+        password = request.form['password']
+        utils.createuser(username,password)
+        return redirect('login')
+
 def is_number(s):
     try:
         float(s)
