@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<title>Bloginator 37 000 000 000</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-		<h1>Signed in as {{user}}</h1>
-		
+		<h1>Bloginator 37 000 000 000</h1>
 		<ul class="nav">
-		  <li class="nav"><a class="nav" href="login">Login</a></li>
-		  <li class="nav"><a class="nav" href="logout">Logout</a></li>
+			<li class="nav"><a class="nav" href="logout">Logout</a></li>
+			<li class="nav"><a class="nav" href="login">Login</a></li>
+			<li class="nav2">Signed in as {{user}}</li>
 		</ul>
-		
-		<h2>Write new post:</h2>
-		
+		<h3>Add new post:</h3>
 		<form method="POST">
 		  <input type="text" name="posttext">
 		  <input type="submit" name="updatepost" value="createpost">
 		</form>
-		
-		<br>
-
-		<h2>Posts:</h2>
-
+		<hr>
 		{% for post in posts %}
 			<p>
-				{% print post[2] %} :
+				{% print post[2] %}:
 			</p>
 			<p>
 				{% print post[1] %}
 			</p>
 			<form method = "POST">
-			  <button type="submit" name="updatepost" value"' + post[0] + '">Edit post</button>
+				<button type="submit" name="updatepost" value"' + post[0] + '">Edit post</button>
 			</form>
 			<hr>
 		{% endfor %}

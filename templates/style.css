@@ -17,11 +17,17 @@ ul.nav {
 }
 
 li.nav {
+	float: right;
+	line-height: 40px;
+	height: 40px;
+	width: 120px;
+}
+
+li.nav2 {
 	float: left;
 	line-height: 40px;
 	height: 40px;
-	border-bottom: 1px solid #888;
-	width: 120px;
+	color: #fff;
 }
 
 a {
@@ -31,7 +37,7 @@ a {
 a.nav {
 	text-decoration: none;
 	color: #fff;
-	transition: .3s background-color;
+	transition: .5s background-color;
 }
 
 a.nav:hover {
