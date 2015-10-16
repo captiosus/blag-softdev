@@ -6,3 +6,40 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: "Segoe UI", sans-serif;
 	font-weight: 500;
 }
+
+ul.nav {
+	list-style-type: none;
+	background-color: #444;
+	text-align: center;
+	margin: 0 auto;
+	padding: 0;
+	overflow: auto;
+}
+
+li.nav {
+	float: left;
+	line-height: 40px;
+	height: 40px;
+	border-bottom: 1px solid #888;
+	width: 120px;
+}
+
+a {
+	display: block;
+}
+
+a.nav {
+	text-decoration: none;
+	color: #fff;
+	transition: .3s background-color;
+}
+
+a.nav:hover {
+	background-color: #005f5f;
+}
+
+a.nav:active {
+	background-color: #fff;
+	color: #444;
+	cursor: default;
+}
