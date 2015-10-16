@@ -95,4 +95,4 @@ def is_number(s):
 if __name__ == "__main__":
     app.debug = True
     app.secret_key="Don't store this on github"
-    app.run(host = '0.0.0.0', port = 1998)
+    app.run(host = '0.0.0.0', port = 5000)
