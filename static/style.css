@@ -31,25 +31,34 @@ li.nav2 {
 }
 
 a {
-	display: block;
+//	display: block;
+}
+
+a.username {
+	text-decoration: none;
+	color: #444;
+	background-color: #DDD;
+}
+
+a.username:hover {
+	color: #266;
+	background-color: #CCC;
 }
 
 a.h1 {
+	display: block;
 	text-decoration: none;
 	transition: .5s background-color;
+	color: purple;
 }
 
 a.h1:hover {
 	background-color: #5f005f;
-}
-
-a.nav:active {
-	background-color: #f0f;
-	color: 444;
-	cursor: default;
+	color: #a0a;
 }
 
 a.nav {
+	display: block;
 	text-decoration: none;
 	color: #fff;
 	transition: .5s background-color;
@@ -60,7 +69,7 @@ a.nav:hover {
 }
 
 a.nav:active {
-	background-color: #fff;
+	background-color: #f0f;
 	color: #444;
 	cursor: default;
 }
