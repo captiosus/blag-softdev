@@ -1,4 +1,5 @@
 import sqlite3
+import time
 
 error = ""
  
@@ -19,13 +20,32 @@ def authenticate(username,password):
             return False
         else:
             return True
-#import time
-#print (time.strftime("%H:%M:%S"))
-#print (time.strftime("%d/%m/%Y"))
 
 def getError():
     global error
     return  error
+
+def currentTime():
+    return (time.strftime("%d/%m/%Y")) + (time.strftime("%H:%M:%S"))
+
+def getTime(username):
+    conn = sqlite3.connect("blag.db")
+    c = conn.cursor()
+    q = "SELECT time from users WHERE username=:uname"
+    c.execute(q,{"uname:"username})
+    result = c.fetchone()
+    if result == None:
+        r = "UPDATE users SET time = " + currentTime() + "WHERE username=:uname"
+        c.execute(r,{"uname:"username})
+        return "Never logged in before"
+    else:
+        time = result[0]
+        r = "UPDATE users SET time = " + currentTime()  + "WHERE username=:uname"
+        c.execute(r,{"uname:"username})
+        return time;
+        
+        
+    
 
 authenticate('bloginator','softdev')
 
