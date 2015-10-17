@@ -50,9 +50,14 @@ def viewposts():
                  else:
                      return "you are not logged in"
             elif is_number(request.form['updatepost']):
-                postid = request.form['updatepost']
-                post = utils.getpost(postid)
-                return render_template('editpost.html',postid = postid, user = user, post = post)
+                if float(request.form['updatepost']) > 0:
+                    postid = request.form['updatepost']
+                    post = utils.getpost(postid)
+                    return render_template('editpost.html',postid = postid, user = user, post = post)
+                else:
+                    postid = -float(request.form['updatepost'])
+                    utils.deletepost(postid)
+                    return redirect(url_for('viewposts'))
             else: 
                 post = request.form['updatepost']
                 postid = request.form['postid']

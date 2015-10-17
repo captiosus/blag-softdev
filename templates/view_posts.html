@@ -20,7 +20,7 @@
 		<form method="POST" id="newpost">
 			<textarea form="newpost" name="posttext" rows=5 cols=100 placeholder="Enter new post &hellip; if you dare!"></textarea>
 			<br>
-			<input type="submit" name="updatepost" value="Bloginate!">
+			<button type="submit" name="updatepost" value="createpost">Bloginate!</button>
 		</form>
 		<hr>
 		{% for post in posts %}
@@ -30,6 +30,7 @@
 			</p>
 			<form method="POST">
 				<button type="submit" name="updatepost" value={{post[0]}}>Edit post</button>
+				<button type="submit" name="updatepost" value={{ -post[0] }}>Delete post</button>
 			</form>
 			<hr>
 		{% endfor %}

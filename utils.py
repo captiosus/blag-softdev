@@ -32,16 +32,16 @@ def getTime(username):
     conn = sqlite3.connect("blag.db")
     c = conn.cursor()
     q = "SELECT time from users WHERE username=:uname"
-    c.execute(q,{"uname:"username})
+    c.execute(q,{"uname":username})
     result = c.fetchone()
     if result == None:
         r = "UPDATE users SET time = " + currentTime() + "WHERE username=:uname"
-        c.execute(r,{"uname:"username})
+        c.execute(r,{"uname":username})
         return "Never logged in before"
     else:
         time = result[0]
         r = "UPDATE users SET time = " + currentTime()  + "WHERE username=:uname"
-        c.execute(r,{"uname:"username})
+        c.execute(r,{"uname":username})
         return time;
         
         
@@ -100,6 +100,14 @@ def displayposts():
     cur = conn.cursor()
     cur.execute('SELECT postid, post, username FROM posts')
     allposts = cur.fetchall()
+    for post in allposts:
+        postid = post[0]
+        cur.execute('SELECT commentid, comment, username FROM comments WHERE postid=:id',{"id":postid})
+        comments = cur.fetchall()
+        comments = tuple(comments)
+        print "POSTS:"
+        post = post + (comments)
+        print post    
     cur.close()
     return allposts
 
@@ -110,3 +118,18 @@ def getpost(postid):
     post = cur.fetchone()[0]
     cur.close()
     return post
+
+def nextcommentid(postid):
+    conn = sqlite3.connect('blag.db')
+    cur = conn.cursor()
+    cur.execute('SELECT MAX(commentid) FROM comments WHERE postid=:id',{"id":postid})
+    commentid = cur.fetchall()
+    cur.close()
+    return commentid[0][0]+1
+
+def createcomment(postid,newcommentid,username,comment):
+    conn = sqlite3.connect('blag.db')
+    cur = conn.cursor()
+    cur.execute('INSERT INTO comments(postid,commentid,username,comment) VALUES(?,?,?,?)',(postid,newcommentid,username,comment))
+    conn.commit()
+    cur.close()
