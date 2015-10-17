@@ -98,7 +98,6 @@ def editpost(postid,username,post):
     cur = conn.cursor()
     cur.execute('UPDATE posts SET username = ? WHERE postid = ?',(username,postid))
     cur.execute('UPDATE posts SET post = ? WHERE postid = ?',(post,postid))
-    cur.execute('UPDATE posts SET timestamp = ? WHERE postid = ?',(currentTime(),postid))
     conn.commit()
     cur.close()
 
