@@ -24,17 +24,20 @@
 		</form>
 		<hr>
 		{% for post in posts %}
-			<a class="username" href="">{% print post[2] %}</a>
+			<a class="username" href="">{% print post[3] %}</a>
 			<p>
-				{% print post[1] %}
+			        {% print post[1] %}
+			</p>
+			<p>
+				{% print post[2] %}
 			</p>
 			<form method="POST">
 				<button type="submit" name="updatepost" value={{ post[0] }}>Edit post</button>
 				<button type="submit" name="updatepost" value={{ -post[0] }}>Delete post</button>
 				<button type="submit" name="updatepost" value={{ "c"+post[0]|string }}>Write a comment</button>
 			</form>
-			{% if post|length > 3 %}
-			   {% for i in range(3,post|length) %}
+			{% if post|length > 4 %}
+			   {% for i in range(4,post|length) %}
 			         {% print post[i][2] %}:
 			         {% print post[i][1] %}
 			         <br>
