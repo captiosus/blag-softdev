@@ -12,10 +12,10 @@ Done so far: <br>
 -Multiple users with login, logout, new user registration<br>
 -Adding, editing posts<br>
 -Basic css styling<br>
-To be done/finished: <br>
--Comments<br>
--User profile(Added in last log in, requires addition in db)<br>
+-Writing comments<br>
 -timestamps<br>
+To be done/finished: <br>
+-User profile(Added in last log in, requires addition in db)<br>
 <br>
 Deadlines: <br>
 10-13: Log-in page template <br>
