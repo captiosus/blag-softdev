@@ -141,3 +141,9 @@ def createcomment(postid,newcommentid,username,comment):
     conn.commit()
     cur.close()
 
+def finduserposts(username):
+    conn = sqlite3.connect('blag.db')
+    cur = conn.cursor()
+    cur.execute('SELECT postid, post FROM posts where username=:uname',{"uname":username})
+    conn.commit()
+    cur.close()
