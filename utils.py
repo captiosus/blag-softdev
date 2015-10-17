@@ -80,6 +80,7 @@ def createpost(newpostid,username,post):
     conn = sqlite3.connect('blag.db')
     cur = conn.cursor()
     cur.execute('INSERT INTO posts(postid,username,post) VALUES(?,?,?)',(newpostid,username,post))
+    #cur.execute('INSERT INTO posts(postid,username,post,time) VALUES(?,?,?)',(newpostid,username,post,currentTime()))
     conn.commit()
     cur.close()
 
@@ -96,6 +97,7 @@ def editpost(postid,username,post):
     cur = conn.cursor()
     cur.execute('UPDATE posts SET username = ? WHERE postid = ?',(username,postid))
     cur.execute('UPDATE posts SET post = ? WHERE postid = ?',(post,postid))
+    #cur.execute('UPDATE posts SET time = ? where postid = ?',(currentTime(),postid))
     conn.commit()
     cur.close()
 
@@ -138,6 +140,7 @@ def createcomment(postid,newcommentid,username,comment):
     conn = sqlite3.connect('blag.db')
     cur = conn.cursor()
     cur.execute('INSERT INTO comments(postid,commentid,username,comment) VALUES(?,?,?,?)',(postid,newcommentid,username,comment))
+    # cur.execute('INSERT INTO comments(postid,commentid,username,comment,time) VALUES(?,?,?,?,?)',(postid,newcommentid,username,comment,currentTime()))
     conn.commit()
     cur.close()
 
