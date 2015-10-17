@@ -29,9 +29,18 @@
 				{% print post[1] %}
 			</p>
 			<form method="POST">
-				<button type="submit" name="updatepost" value={{post[0]}}>Edit post</button>
+				<button type="submit" name="updatepost" value={{ post[0] }}>Edit post</button>
 				<button type="submit" name="updatepost" value={{ -post[0] }}>Delete post</button>
+				<button type="submit" name="updatepost" value={{ "c"+post[0]|string }}>Write a comment</button>
 			</form>
+			{% if post|length > 3 %}
+			   {% for i in range(3,post|length) %}
+			         {% print post[i][2] %}:
+			         {% print post[i][1] %}
+			         <br>
+			   {% endfor %}
+			{% endif %}	
+
 			<hr>
 		{% endfor %}
 	</body>

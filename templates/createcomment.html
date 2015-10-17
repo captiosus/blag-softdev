@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Bloginator 37 000 000 000 Editing post</title>
+		<link rel="stylesheet" type="text/css" href="static/style.css">
+	</head>
+	<body>
+		<a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
+		<ul class="nav">
+			{% if user %}
+				<li class="nav"><a class="nav" href="logout">Logout</a></li>
+				<li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
+			{% else %}
+				<li class="nav"><a class="nav" href="create_account">Register</a></li>
+				<li class="nav"><a class="nav" href="login">Login</a></li>
+				<li class="nav2">&nbsp;&nbsp;Not signed in</li>
+			{% endif %}
+		</ul>
+		<h2>Write a comment to this post:</h2>
+		{{post}}
+		<form method="POST" id="edit">
+			<textarea form="edit" name="updatepost" rows=30 cols=100 placeholder="Comment here"></textarea>
+			<br>
+			<button type="submit" name="postid" value={{"pc"+postid|string}}>Submit</button>
+		</form>
+	</body>
+</html>

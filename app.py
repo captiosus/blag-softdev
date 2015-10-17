@@ -58,11 +58,25 @@ def viewposts():
                     postid = -float(request.form['updatepost'])
                     utils.deletepost(postid)
                     return redirect(url_for('viewposts'))
+            elif request.form['updatepost'][0:1] == "c" and is_number(request.form['updatepost'][1:]):
+                postid = request.form['updatepost']
+                postid = float(postid[1:])
+                post = utils.getpost(postid)
+                return render_template('createcomment.html',postid = postid, user = user, post = post)
             else: 
-                post = request.form['updatepost']
-                postid = request.form['postid']
-                utils.editpost(postid,user,post)
-                return redirect(url_for('viewposts'))
+                if is_number(request.form['postid']):
+                    post = request.form['updatepost']
+                    postid = request.form['postid']
+                    utils.editpost(postid,user,post)
+                    return redirect(url_for('viewposts'))
+                elif request.form['postid'][0:2] == "pc":
+                    comment = request.form['updatepost']
+                    postid = float(request.form['postid'][2:])
+                    print postid
+                    newcommentid = utils.nextcommentid(postid)
+                    utils.createcomment(postid,newcommentid,user,comment)
+                    return redirect(url_for('viewposts'))
+
         else:
             return redirect(url_for('login'))
     

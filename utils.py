@@ -63,6 +63,9 @@ def nextpostid():
     cur.execute('SELECT MAX(postid) FROM posts')
     postid = cur.fetchall()
     cur.close()
+    print postid
+    if postid[0] is None:
+        return 1
     return postid[0][0]+1
 
 def createuser(username,password):
@@ -84,6 +87,7 @@ def deletepost(postid):
     conn = sqlite3.connect('blag.db')
     cur = conn.cursor()
     cur.execute('DELETE FROM posts WHERE postid=:id',{"id":postid})
+    cur.execute('DELETE FROM comments WHERE postid=:id',{"id":postid})
     conn.commit()
     cur.close()
 
@@ -100,16 +104,16 @@ def displayposts():
     cur = conn.cursor()
     cur.execute('SELECT postid, post, username FROM posts')
     allposts = cur.fetchall()
+    postscomments = []
     for post in allposts:
         postid = post[0]
         cur.execute('SELECT commentid, comment, username FROM comments WHERE postid=:id',{"id":postid})
         comments = cur.fetchall()
         comments = tuple(comments)
-        print "POSTS:"
-        post = post + (comments)
-        print post    
+        post = post + comments
+        postscomments.append(post)
     cur.close()
-    return allposts
+    return postscomments
 
 def getpost(postid):
     conn = sqlite3.connect('blag.db')
@@ -123,8 +127,11 @@ def nextcommentid(postid):
     conn = sqlite3.connect('blag.db')
     cur = conn.cursor()
     cur.execute('SELECT MAX(commentid) FROM comments WHERE postid=:id',{"id":postid})
-    commentid = cur.fetchall()
+    commentid = cur.fetchone()
     cur.close()
+    print commentid
+    if commentid[0] is None:
+        return 1
     return commentid[0][0]+1
 
 def createcomment(postid,newcommentid,username,comment):
@@ -133,3 +140,4 @@ def createcomment(postid,newcommentid,username,comment):
     cur.execute('INSERT INTO comments(postid,commentid,username,comment) VALUES(?,?,?,?)',(postid,newcommentid,username,comment))
     conn.commit()
     cur.close()
+
