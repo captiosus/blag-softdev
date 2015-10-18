@@ -146,7 +146,23 @@ def createcomment(postid,newcommentid,username,comment):
 def finduserposts(username):
     conn = sqlite3.connect('blag.db')
     cur = conn.cursor()
-    cur.execute('SELECT postid, post FROM posts where username=:uname',{"uname":username})
-    conn.commit()
+    cur.execute('SELECT postid, timestamp, post, username FROM posts where username=:uname',{"uname":username})
+    allposts = cur.fetchall()
+    postscomments = []
+    for post in allposts:
+        postid = post[0]
+        cur.execute('SELECT commentid, comment, username FROM comments WHERE postid=:id',{"id":postid})
+        comments = cur.fetchall()
+        comments = tuple(comments)
+        post = post + comments
+        postscomments.append(post)
     cur.close()
+    return postscomments
 
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False

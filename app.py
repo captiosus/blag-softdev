@@ -54,7 +54,7 @@ def viewposts():
                  else:
                      return "you are not logged in"
             # either edit the specific post or delete the post
-            elif is_number(request.form['updatepost']):
+            elif utils.is_number(request.form['updatepost']):
                 if float(request.form['updatepost']) > 0:
                     postid = request.form['updatepost']
                     post = utils.getpost(postid)
@@ -63,7 +63,7 @@ def viewposts():
                     postid = -float(request.form['updatepost'])
                     utils.deletepost(postid)
                     return redirect(url_for('viewposts'))
-            elif is_number(request.form['updatepost'][2:]):
+            elif utils.is_number(request.form['updatepost'][2:]):
                 updatepostinput = request.form['updatepost'][0:2]
                 # from viewposts homepage, user clicked "Write a comment"
                 if updatepostinput == "cc":
@@ -103,16 +103,8 @@ def createaccount():
 
 @app.route("/user/<username>")
 def user_profile(username=''):
-    if len(session.keys())!=0:
-        username = session[session.keys()[0]]
-    return render_template("profile.html", username=username)
-
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
+    posts = utils.finduserposts(username)
+    return render_template("profile.html", username=username, posts=posts)
 
 if __name__ == "__main__":
     app.debug = True
