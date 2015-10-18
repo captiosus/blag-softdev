@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Bloginator 37 000 000 000 Editing post</title>
-		<link rel="stylesheet" type="text/css" href="static/style.css">
-	</head>
-	<body>
-		<a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
-		<ul class="nav">
-			{% if user %}
-				<li class="nav"><a class="nav" href="logout">Logout</a></li>
-				<li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
-			{% else %}
-				<li class="nav"><a class="nav" href="create_account">Register</a></li>
-				<li class="nav"><a class="nav" href="login">Login</a></li>
-				<li class="nav2">&nbsp;&nbsp;Not signed in</li>
-			{% endif %}
-		</ul>
-		<h2>Write a comment to this post:</h2>
-		{{post}}
-		<form method="POST" id="edit">
-			<textarea form="edit" name="comment" rows=30 cols=100 placeholder="Comment here"></textarea>
-			<br>
-			<button type="submit" name="updatepost" value={{"pc"+postid|string}}>Submit</button>
-		</form>
-	</body>
+  <head>
+    <title>Bloginator 37 000 000 000 Editing post</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+
+    <div class="container">
+      <div id="banner">
+	<a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
+      </div>
+      
+    <ul class="nav">
+      {% if user %}
+      <li class="nav"><a class="nav" href="logout">Logout</a></li>
+      <li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
+      {% else %}
+      <li class="nav"><a class="nav" href="create_account">Register</a></li>
+      <li class="nav"><a class="nav" href="login">Login</a></li>
+      <li class="nav2">&nbsp;&nbsp;Not signed in</li>
+      {% endif %}
+    </ul>
+  </head>
+
+  <body>
+    <div class="feed">
+      <h2>Write a comment to this post:</h2>
+      {{post}}
+      <br>
+      <br>
+    <form method="POST" id="edit">
+      <textarea form="edit" name="comment" rows=35 cols=70 placeholder="Comment here"></textarea>
+      <br>
+      <button type="submit" name="updatepost" value={{"pc"+postid|string}}>Submit</button>
+    </form>
+    </div><!--end of feed div-->
+  </div><!--end of container div-->
+  
+  </body>
 </html>
