@@ -1,29 +1,63 @@
 <!DOCTYPE html>
 <html>
-  <head><title>USER PROFILE for {{username}}</title>
+  <head>
+    <title>USER PROFILE for {{username}}</title>
     <link rel="stylesheet" type="text/css" href="static/style.css">
-  </head>
-  <body>
-    <a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
-    <ul class="nav">
-      <li class="nav"><a class="nav" href="create_account">Register</a></li>
-      <li class="nav"><a class="nav" href="logout">Logout</a></li>
-      <li class="nav"><a class="nav" href="login">Login</a></li>
-      <li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
-    </ul>
-    <h1>USER: {{username}}</h1>
-    <h3>all posts by this user</h3>
-    <hr>
-    {% for post in posts %}
-    <p>
-      {% print post[2] %}
-    </p>
-    <p>
-      {print post[1] %}
-    </p>
-    <hr>
-    {% endfor %}
-  </body>
-</html>
-
     
+    <div class="container">
+      <div id="banner">
+	<a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
+      </div> <!--end of banner div-->
+
+      <!--NAVBAR-->
+      <ul class="nav">
+	{% if user %}
+	<li class="nav"><a class="nav" href="logout">Logout</a></li>
+	<li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
+	{% else %}
+	<li class="nav"><a class="nav" href="create_account">Register</a></li>
+	<li class="nav"><a class="nav" href="login">Login</a></li>
+	<li class="nav2">&nbsp;&nbsp;Not signed in</li>
+	{% endif %}
+      </ul>
+  </head>
+
+
+  
+  <body>
+      <!--POST FEED-->
+      <hr>
+      {% if posts == [] %}
+      {% print username + " has no posts."%}
+      {% else %}
+      <h2> {{username}}'s posts </h2>
+      {% endif %}
+	{% for post in posts %}
+	<a class="username" href="">{% print post[3] %}</a>
+	<p>
+	  {% print post[1] %}
+	</p>
+	<p>
+	  {% print post[2] %}
+	</p>
+	<br>
+	
+
+	{% if post|length > 4 %}
+	{% for i in range(4,post|length) %}
+	{% print post[i][2] %}
+	{% print post[i][1] %}
+	<br>
+	{% endfor %}
+	{% endif %}	
+
+	<hr>
+	{% endfor %}
+
+	
+      </div> <!--end of feed div-->
+    </div> <!--end of container div-->
+    
+  </body>
+  
+</html>

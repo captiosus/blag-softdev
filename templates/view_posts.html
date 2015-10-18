@@ -43,7 +43,7 @@
 	<p>
 	  {% print post[2] %}
 	</p>
-	  <font size="2" color="gray">Posted by <a class="username" href="">{% print post[3] %}</a> <br>
+	  <font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post[3] }}>{% print post[3] %}</a> <br>
 	{% print post[1] %} </font>
 	<br> <br>
 	
@@ -58,7 +58,7 @@
 	<div class="comments">
 	{% if post|length > 4 %}
 	{% for i in range(4,post|length) %}
-	<b><a class="username" href="">{% print post[i][2] %}:</a></b>
+	<b><a class="username" href={{ "user/" + post[i][2] }}>{% print post[i][2] %}:</a></b>
 	{% print post[i][1] %}
 	<br>
 	<br>
