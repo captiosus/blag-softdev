@@ -83,6 +83,8 @@ def viewposts():
                     return redirect(url_for('viewposts'))                   
             else:
                 return redirect(url_for('login'))
+        else:
+            return redirect(url_for('login'))
 
     
 @app.route("/create_account",methods = ["GET","POST"])
