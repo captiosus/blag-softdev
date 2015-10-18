@@ -40,7 +40,7 @@ def viewposts():
         if len(session.keys())!=0:
             user = session[session.keys()[0]]
             print request.form
-            # create a post when the button bloginate is clicked
+            # create a post when the button "Bloginate!" is clicked
             if request.form['updatepost'] == 'createpost':
                  print 'creating new post'
                  if 'username' in session:
@@ -60,27 +60,30 @@ def viewposts():
                     postid = -float(request.form['updatepost'])
                     utils.deletepost(postid)
                     return redirect(url_for('viewposts'))
-            # clicked on write a comment
-            elif request.form['updatepost'][0:2] == "cc" and is_number(request.form['updatepost'][2:]):
-                postid = request.form['updatepost']
-                postid = float(postid[2:])
-                post = utils.getpost(postid)
-                return render_template('createcomment.html',postid = postid, user = user, post = post)
-            # post the comment 
-            elif request.form['updatepost'][0:2] == "pc" and is_number(request.form['updatepost'][2:]):
-                comment = request.form['comment']
-                postid = float(request.form['updatepost'][2:])
-                newcommentid = utils.nextcommentid(postid)
-                utils.createcomment(postid,newcommentid,user,comment)
-                return redirect(url_for('viewposts'))
-            # submit the edited post
-            elif request.form['updatepost'][0:2] == "ep" and is_number(request.form['updatepost'][2:]):
-                post = request.form['editpost']
-                postid = float(request.form['updatepost'][2:])
-                utils.editpost(postid,user,post)
-                return redirect(url_for('viewposts'))
-        else:
-            return redirect(url_for('login'))
+            elif is_number(request.form['updatepost'][2:]):
+                updatepostinput = request.form['updatepost'][0:2]
+                # from viewposts homepage, user clicked "Write a comment"
+                if updatepostinput == "cc":
+                    postid = request.form['updatepost']
+                    postid = float(postid[2:])
+                    post = utils.getpost(postid)
+                    return render_template('createcomment.html',postid = postid, user = user, post = post)
+                # from the createcomments page, user submitted comment
+                elif updatepostinput == "pc":
+                    comment = request.form['comment']
+                    postid = float(request.form['updatepost'][2:])
+                    newcommentid = utils.nextcommentid(postid)
+                    utils.createcomment(postid,newcommentid,user,comment)
+                    return redirect(url_for('viewposts'))             
+                # from viewposts homepage, user click "Edit post"
+                elif updatepostinput == "ep":
+                    post = request.form['editpost']
+                    postid = float(request.form['updatepost'][2:])
+                    utils.editpost(postid,user,post)
+                    return redirect(url_for('viewposts'))                   
+            else:
+                return redirect(url_for('login'))
+
     
 @app.route("/create_account",methods = ["GET","POST"])
 def createaccount():
