@@ -40,6 +40,7 @@ def viewposts():
         if len(session.keys())!=0:
             user = session[session.keys()[0]]
             print request.form
+            # create a post when the button bloginate is clicked
             if request.form['updatepost'] == 'createpost':
                  print 'creating new post'
                  if 'username' in session:
@@ -49,6 +50,7 @@ def viewposts():
                      return redirect(url_for('viewposts'))
                  else:
                      return "you are not logged in"
+            # either edit the specific post or delete the post
             elif is_number(request.form['updatepost']):
                 if float(request.form['updatepost']) > 0:
                     postid = request.form['updatepost']
@@ -58,17 +60,20 @@ def viewposts():
                     postid = -float(request.form['updatepost'])
                     utils.deletepost(postid)
                     return redirect(url_for('viewposts'))
+            # clicked on write a comment
             elif request.form['updatepost'][0:2] == "cc" and is_number(request.form['updatepost'][2:]):
                 postid = request.form['updatepost']
                 postid = float(postid[2:])
                 post = utils.getpost(postid)
                 return render_template('createcomment.html',postid = postid, user = user, post = post)
+            # post the comment 
             elif request.form['updatepost'][0:2] == "pc" and is_number(request.form['updatepost'][2:]):
                 comment = request.form['comment']
                 postid = float(request.form['updatepost'][2:])
                 newcommentid = utils.nextcommentid(postid)
                 utils.createcomment(postid,newcommentid,user,comment)
                 return redirect(url_for('viewposts'))
+            # submit the edited post
             elif request.form['updatepost'][0:2] == "ep" and is_number(request.form['updatepost'][2:]):
                 post = request.form['editpost']
                 postid = float(request.form['updatepost'][2:])
