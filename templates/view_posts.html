@@ -3,30 +3,31 @@
   <head>
     <title>Bloginator 37 000 000 000</title>
     <link rel="stylesheet" type="text/css" href="static/style.css">
-
-    <div id="banner">
-    <a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
-    </div>
     
-    <!--NAVBAR-->
-    <ul class="nav">
-      {% if user %}
-      <li class="nav"><a class="nav" href="logout">Logout</a></li>
-      <li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
-      {% else %}
-      <li class="nav"><a class="nav" href="create_account">Register</a></li>
-      <li class="nav"><a class="nav" href="login">Login</a></li>
-      <li class="nav2">&nbsp;&nbsp;Not signed in</li>
-      {% endif %}
-    </ul>
+    <div class="container">
+      <div id="banner">
+	<a class="h1" href="/"><h1>Bloginator 37 000 000 000</h1></a>
+      </div> <!--end of banner div-->
+
+      <!--NAVBAR-->
+      <ul class="nav">
+	{% if user %}
+	<li class="nav"><a class="nav" href="logout">Logout</a></li>
+	<li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
+	{% else %}
+	<li class="nav"><a class="nav" href="create_account">Register</a></li>
+	<li class="nav"><a class="nav" href="login">Login</a></li>
+	<li class="nav2">&nbsp;&nbsp;Not signed in</li>
+	{% endif %}
+      </ul>
   </head>
 
 
   
   <body>
-    <div class="container">
-      
-      <!--NEW POST SUBMIT-->
+    
+    <!--NEW POST SUBMIT-->
+    <div class="feed">
       <h2>Add new post:</h2>
       <form method="POST" id="newpost">
 	<textarea form="newpost" name="posttext" rows=10 cols=90 placeholder="Enter new post &hellip; if you dare!"></textarea>
@@ -36,8 +37,6 @@
 
       <!--POST FEED-->
       <hr>
-      <div class="post">
-	
 	{% for post in posts %}
 	<a class="username" href="">{% print post[3] %}</a>
 	<p>
@@ -47,25 +46,29 @@
 	  {% print post[2] %}
 	</p>
 	
-      <!--POST OPTIONS-->
-      <form method="POST">
-	<button type="submit" name="updatepost" value={{ post[0] }}>Edit post</button>
-	<button type="submit" name="updatepost" value={{ -post[0] }}>Delete post</button>
-	<button type="submit" name="updatepost" value={{ "cc"+post[0]|string }}>Write a comment</button>
-      </form>
-      {% if post|length > 4 %}
-      {% for i in range(4,post|length) %}
-      {% print post[i][2] %}:
-      {% print post[i][1] %}
-      <br>
-      {% endfor %}
-      {% endif %}	
+	<!--POST OPTIONS-->
+	<form method="POST">
+	  <button type="submit" name="updatepost" value={{ post[0] }}>Edit post</button>
+	  <button type="submit" name="updatepost" value={{ -post[0] }}>Delete post</button>
+	  <button type="submit" name="updatepost" value={{ "cc"+post[0]|string }}>Write a comment</button>
+	</form>
+	<br>
+	
 
-      <hr>
-      {% endfor %}
+	{% if post|length > 4 %}
+	{% for i in range(4,post|length) %}
+	{% print post[i][2] %}
+	{% print post[i][1] %}
+	<br>
+	{% endfor %}
+	{% endif %}	
 
-      
-    </div>
+	<hr>
+	{% endfor %}
+
+	
+      </div> <!--end of feed div-->
+    </div> <!--end of container div-->
     
   </body>
   
