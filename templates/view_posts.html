@@ -30,7 +30,7 @@
     <div class="feed">
       <h2>Add new post:</h2>
       <form method="POST" id="newpost">
-	<textarea form="newpost" name="posttext" rows=10 cols=90 placeholder="Enter new post &hellip; if you dare!"></textarea>
+	<textarea form="newpost" name="posttext" id="textpost" rows=10 cols=90 placeholder="Enter new post &hellip; if you dare!"></textarea>
 	<br>
 	<button type="submit" name="updatepost" value="createpost">Bloginate!</button>
       </form>
@@ -38,13 +38,14 @@
       <!--POST FEED-->
       <hr>
 	{% for post in posts %}
-	<a class="username" href="">{% print post[3] %}</a>
-	<p>
-	  {% print post[1] %}
-	</p>
+
+	
 	<p>
 	  {% print post[2] %}
 	</p>
+	  <font size="2" color="gray">Posted by <a class="username" href="">{% print post[3] %}</a> at
+	{% print post[1] %} </font>
+	<br> <br>
 	
 	<!--POST OPTIONS-->
 	<form method="POST">
@@ -54,15 +55,18 @@
 	</form>
 	<br>
 	
-
+	<div class="comments">
 	{% if post|length > 4 %}
 	{% for i in range(4,post|length) %}
-	{% print post[i][2] %}:
+	<b>{% print post[i][2] %}:</b>
 	{% print post[i][1] %}
 	<br>
+	<br>
 	{% endfor %}
-	{% endif %}	
+	{% endif %}
 
+	</div><!--end of comments div-->
+	
 	<hr>
 	{% endfor %}
 

@@ -38,6 +38,17 @@ h1, h2, h3, h4, h5, h6 {
 .onepost {
     
 }
+
+#textpost {
+    width:80%;
+}
+
+.comments {
+    background-color:#CCFFFF;
+    border: 2px solid #124A4A;
+    padding: 5px;
+}
+
 ul.nav {
 	list-style-type: none;
 	background-color: #444;

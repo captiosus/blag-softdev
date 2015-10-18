@@ -13,11 +13,13 @@
       {% if user %}
       <li class="nav"><a class="nav" href="logout">Logout</a></li>
       <li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
+      
       {% else %}
       <li class="nav"><a class="nav" href="create_account">Register</a></li>
       <li class="nav"><a class="nav" href="login">Login</a></li>
       <li class="nav2">&nbsp;&nbsp;Not signed in</li>
       {% endif %}
+    
     </ul>
   </head>
 
