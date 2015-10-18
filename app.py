@@ -29,6 +29,7 @@ def logout():
 @app.route("/view_posts", methods = ["GET","POST"])
 @app.route("/", methods = ["GET","POST"])
 def viewposts():
+    print 'in viewposts'
     if request.method == "GET":
         posts = utils.displayposts()
         if len(session.keys())!=0:
@@ -37,7 +38,9 @@ def viewposts():
             user=''
         return render_template('view_posts.html',posts = posts, user=user)
     else:
+        print session.keys()
         if len(session.keys())!=0:
+            print 'SEOTHING'
             user = session[session.keys()[0]]
             print request.form
             # create a post when the button "Bloginate!" is clicked
@@ -82,6 +85,7 @@ def viewposts():
                     utils.editpost(postid,user,post)
                     return redirect(url_for('viewposts'))                   
             else:
+                print 'ELSE'
                 return redirect(url_for('login'))
 
     
