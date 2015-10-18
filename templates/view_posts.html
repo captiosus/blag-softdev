@@ -34,7 +34,7 @@
 			<form method="POST">
 				<button type="submit" name="updatepost" value={{ post[0] }}>Edit post</button>
 				<button type="submit" name="updatepost" value={{ -post[0] }}>Delete post</button>
-				<button type="submit" name="updatepost" value={{ "c"+post[0]|string }}>Write a comment</button>
+				<button type="submit" name="updatepost" value={{ "cc"+post[0]|string }}>Write a comment</button>
 			</form>
 			{% if post|length > 4 %}
 			   {% for i in range(4,post|length) %}

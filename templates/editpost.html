@@ -18,9 +18,9 @@
 		</ul>
 		<h2>Edit post:</h2>
 		<form method="POST" id="edit">
-			<textarea form="edit" name="updatepost" rows=30 cols=100 placeholder="Enter post"> {{post}}</textarea>
+			<textarea form="edit" name="editpost" rows=30 cols=100 placeholder="Enter post"> {{post}}</textarea>
 			<br>
-			<button type="submit" name="postid" value={{postid}}>Submit</button>
+			<button type="submit" name="updatepost" value={{"ep"+postid|string}}>Submit</button>
 		</form>
 	</body>
 </html>

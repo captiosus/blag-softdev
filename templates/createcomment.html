@@ -19,9 +19,9 @@
 		<h2>Write a comment to this post:</h2>
 		{{post}}
 		<form method="POST" id="edit">
-			<textarea form="edit" name="updatepost" rows=30 cols=100 placeholder="Comment here"></textarea>
+			<textarea form="edit" name="comment" rows=30 cols=100 placeholder="Comment here"></textarea>
 			<br>
-			<button type="submit" name="postid" value={{"pc"+postid|string}}>Submit</button>
+			<button type="submit" name="updatepost" value={{"pc"+postid|string}}>Submit</button>
 		</form>
 	</body>
 </html>
