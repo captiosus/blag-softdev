@@ -53,7 +53,6 @@
 	{% if post|length > 4 %}
 	{% for i in range(4,post|length) %}
 	<b><a class="username" href={{ "user/" + post[i][2] }}>{% print post[i][2] %}:</a></b>
-	{% print post[i][2] %}
 	{% print post[i][1] %}
 	<br>
 	{% endfor %}
