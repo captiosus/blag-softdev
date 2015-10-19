@@ -4,7 +4,7 @@
 A platform for sharing your thoughts, stories, musings. You can make, edit, and delete posts, write comments, and view the post history of other users. 
 
 ## Usage
-Use the navigation bar to log in, register, or log out. The homepage is the post feed, where you can add your post and view those of other users. To edit, delete, or comment on a post, use the buttons below the a post. 
+Use the navigation bar to log in, register, or log out. The homepage is the post feed, which is public. Users can add and edit their posts. To edit, delete, or comment on a post, use the buttons below the post. 
 
 ##The Team
 Member | Role
