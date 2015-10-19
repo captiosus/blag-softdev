@@ -21,4 +21,7 @@ Done/finished: <br>
 -Added in a short story<br>
 <br>
 Deadlines: <br>
-Everything's done!
+-10-13: Log-in page template <br>
+-10-14: Log-in functionality, user capability to add/update posts <br>
+-10-16: User profile, comments
+-10-18: User interface and styling<br>
