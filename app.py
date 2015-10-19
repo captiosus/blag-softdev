@@ -103,8 +103,12 @@ def createaccount():
 
 @app.route("/user/<username>")
 def user_profile(username=''):
+    if len(session.keys())!=0:
+        user=session[session.keys()[0]]
+    else:
+        user=''
     posts = utils.finduserposts(username)
-    return render_template("profile.html", username=username, posts=posts)
+    return render_template("profile.html", username=username, user=user, posts=posts)
 
 if __name__ == "__main__":
     app.debug = True
