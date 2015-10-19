@@ -80,7 +80,7 @@ a {
 a.username {
 	text-decoration: none;
 	color: #444;
-	background-color: #DDD;
+	//background-color: #DDD;
 }
 
 a.username:hover {
