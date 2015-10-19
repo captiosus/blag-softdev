@@ -5,6 +5,7 @@ A platform for sharing your thoughts, stories, musings. You can make, edit, and 
 ## Usage
 Use the navigation bar to log in, register, or log out. The homepage is the post feed, where you can add your post and view those of other users. To edit, delete, or comment on a post, use the buttons below the a post. 
 
+##The Team
 Member | Role
 -------|-------
 Mariya Gedrich | Leader
@@ -12,6 +13,7 @@ Shi Shu | Middleware
 Dalton Wu | UX
 Alice Xue | DB
 
+##Progress
 Done/finished: <br>
 -Multiple users with login, logout, new user registration,error messages<br>
 -Adding, editing posts<br>
