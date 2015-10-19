@@ -28,7 +28,7 @@ def getError():
     return  error
 
 def currentTime():
-    return (time.strftime("%d/%m/%Y")) + " " + (time.strftime("%H:%M:%S"))
+    return (time.strftime("%m/%d/%Y")) + " " + (time.strftime("%H:%M:%S"))
 
 
 def getTime(username):

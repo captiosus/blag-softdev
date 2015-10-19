@@ -1,5 +1,5 @@
 html {
-    margin:0;
+    margin: 0;
 }
 body {
     font-family: "Verdana", sans-serif;
@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .container {
     margin: auto;
-    width: 40%;
+    width: 50%;
     border:5px solid #124A4A;
     padding: 0px;
     background-color:#FFFFFF;
@@ -71,6 +71,13 @@ li.nav2 {
 	line-height: 40px;
 	height: 40px;
 	color: #fff;
+}
+
+li.nav3 {
+	float: left;
+	line-height: 40px;
+	height: 40px;
+	width: 120px;
 }
 
 a {
