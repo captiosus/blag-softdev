@@ -15,8 +15,7 @@ Done/finished: <br>
 -Writing comments<br>
 -timestamps(mm/dd/yy + hh/mm/ss)<br>
 -User profile(Added in last log in)<br>
--Added in a short story
--User can add/edit posts
+-Added in a short story<br>
 <br>
 Deadlines: <br>
 Everything's done!
