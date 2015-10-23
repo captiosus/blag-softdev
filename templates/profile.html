@@ -1,55 +1,34 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>USER PROFILE for {{username}}</title>
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
-    
-    <div class="container">
-      <div id="banner">
-	<a class="h1" href="/"><h1><b>Bloginator 37 000 000 000</b></h1></a>
-      </div> <!--end of banner div-->
+{% extends "master.html" %}
 
-      <!--NAVBAR-->
-      <ul class="nav">
-        <li class="nav3"><a class="nav" href="/">Home</a></li>
-	{% if user %}
-	<li class="nav"><a class="nav" href="logout">Logout</a></li>
-	<li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
+{% block body %}
+
+<hr>
+	{% if posts == [] %}
+	{% print username + " has no posts."%}
 	{% else %}
-	<li class="nav"><a class="nav" href="create_account">Register</a></li>
-	<li class="nav"><a class="nav" href="login">Login</a></li>
-	<li class="nav2">&nbsp;&nbsp;Not signed in</li>
+	<h2> {{username}}'s posts </h2>
 	{% endif %}
-      </ul>
-  </head>
+	<!----------------->
+	{% for post in posts %}
+	<p>
+		{% print post[2] %}
+	</p>
+	<font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post[3] }}>
+		{% print post[3] %}</a> <br>
+		{% print post[1] %} 
+	</font>
+<br><br>
+<!----------------->
+<!--<a class="username" href="">{% print post[3] %}</a>
+<p>
+{% print post[1] %}
+</p>
+<p>
+{% print post[2] %}
+</p>
+<br>-->
 
-  
-  <body>
-    <!--POST FEED-->
-    <div class="feed">
-      <hr>
-      {% if posts == [] %}
-      {% print username + " has no posts."%}
-      {% else %}
-      <h2> {{username}}'s posts </h2>
-      {% endif %}
-      {% for post in posts %}
-      	<p>
-	  {% print post[2] %}
-	</p>
-	  <font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post[3] }}>{% print post[3] %}</a> <br>
-	{% print post[1] %} </font>
-	<br> <br>
-	<!--<a class="username" href="">{% print post[3] %}</a>
-	<p>
-	  {% print post[1] %}
-	</p>
-	<p>
-	  {% print post[2] %}
-	</p>
-	<br>-->
-	
-	<div class="comments">
+<div class="comments">
 	{% if post|length > 4 %}
 	{% for i in range(4,post|length) %}
 	<b><a class="username" href={{ "user/" + post[i][2] }}>{% print post[i][2] %}:</a></b>
@@ -57,15 +36,8 @@
 	<br>
 	{% endfor %}
 	{% endif %}	
+</div>
+<hr>
+{% endfor %}<!--dude what-->
 
-	</div><!--end of comments div-->
-	<hr>
-	{% endfor %}
-
-	
-      </div> <!--end of feed div-->
-    </div> <!--end of container div-->
-    
-  </body>
-  
-</html>
+{% endblock %}

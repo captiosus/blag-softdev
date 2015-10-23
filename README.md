@@ -13,6 +13,11 @@ Mariya Gedrich | Leader
 Shi Shu | Middleware
 Dalton Wu | UX
 Alice Xue | DB
+-------|-------
+Roy Xu | Leader
+Ivan Li | Middleware
+Kaizen Castanos | UX
+Ri Jiu Zheng | DB
 
 ##Progress
 ###Completed:

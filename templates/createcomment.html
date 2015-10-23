@@ -1,42 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Bloginator 37 000 000 000 Editing post</title>
-    <link rel="stylesheet" type="text/css" href="static/style.css">
+{% extends "master.html" %}
 
-    <div class="container">
-      <div id="banner">
-	<a class="h1" href="/"><h1><b>Bloginator 37 000 000 000</b></h1></a>
-      </div>
-      
-    <ul class="nav">
-      <li class="nav3"><a class="nav" href="/">Home</a></li>
-      {% if user %}
-      <li class="nav"><a class="nav" href="logout">Logout</a></li>
-      <li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
-      
-      {% else %}
-      <li class="nav"><a class="nav" href="create_account">Register</a></li>
-      <li class="nav"><a class="nav" href="login">Login</a></li>
-      <li class="nav2">&nbsp;&nbsp;Not signed in</li>
-      {% endif %}
-    
-    </ul>
-  </head>
-
-  <body>
-    <div class="feed">
-      <h2>Write a comment to this post:</h2>
-      {{post}}
-      <br>
-      <br>
-    <form method="POST" id="edit">
-      <textarea form="edit" name="comment" rows=35 cols=70 placeholder="Comment here"></textarea>
-      <br>
-      <button type="submit" name="updatepost" value={{"pc"+postid|string}}>Submit</button>
-    </form>
-    </div><!--end of feed div-->
-  </div><!--end of container div-->
-  
-  </body>
-</html>
+{% block body %}
+  <h2>Write a comment to this post:</h2>
+    {{post}}
+  <br>
+  <br>
+  <form method="POST" id="edit">
+    <textarea form="edit" name="comment" rows=35 cols=70 placeholder="Comment here"></textarea>
+    <br>
+    <button type="submit" name="updatepost" value={{"pc"+postid|string}}>Submit</button>
+  </form>
+{% endblock %}

@@ -1,80 +1,44 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Bloginator 37 000 000 000</title>
-    <link rel="stylesheet" type="text/css" href="static/style.css">
-    
-    <div class="container">
-      <div id="banner">
-	<a class="h1" href="/"><h1><b>Bloginator 37 000 000 000</b></h1></a>
-      </div> <!--end of banner div-->
+{% extends "master.html" %}
 
-      <!--NAVBAR-->
-      <ul class="nav">
-	<li class="nav3"><a class="nav" href="/">Home</a></li>
-	{% if user %}
-	<li class="nav"><a class="nav" href="logout">Logout</a></li>
-	<li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
-	{% else %}
-	<li class="nav"><a class="nav" href="create_account">Register</a></li>
-	<li class="nav"><a class="nav" href="login">Login</a></li>
-	<li class="nav2">&nbsp;&nbsp;Not signed in</li>
-	{% endif %}
-      </ul>
-  </head>
-
-
-  
-  <body>
-    
-    <!--NEW POST SUBMIT-->
-    <div class="feed">
-      <h2>Add new post:</h2>
-      <form method="POST" id="newpost">
+{% block body %}
+<h2>Add new post:</h2>
+<form method="POST" id="newpost">
 	<textarea form="newpost" name="posttext" id="textpost" rows=10 cols=90 placeholder="Enter new post &hellip; if you dare!"></textarea>
 	<br>
 	<button type="submit" name="updatepost" value="createpost">Bloginate!</button>
-      </form>
+</form>
 
-      <!--POST FEED-->
-      <hr>
-	{% for post in posts %}
-
-	
+<!--POST FEED-->
+<hr>
+{% for post in posts %}
 	<p>
-	  {% print post[2] %}
+	{% print post[2] %}
 	</p>
-	  <font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post[3] }}>{% print post[3] %}</a> <br>
+	<font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post[3] }}>{% print post[3] %}</a> <br>
 	{% print post[1] %} </font>
-	<br> <br>
-	
-	<!--POST OPTIONS-->
-	<form method="POST">
-	  <button type="submit" name="updatepost" value={{ post[0] }}>Edit post</button>
-	  <button type="submit" name="updatepost" value={{ -post[0] }}>Delete post</button>
-	  <button type="submit" name="updatepost" value={{ "cc"+post[0]|string }}>Write a comment</button>
-	</form>
-	<br>
-	
-	<div class="comments">
-	{% if post|length > 4 %}
+<br><br>
+
+<!--POST OPTIONS-->
+<form method="POST">
+<button type="submit" name="updatepost" value={{ post[0] }}>Edit post</button>
+<button type="submit" name="updatepost" value={{ -post[0] }}>Delete post</button>
+<button type="submit" name="updatepost" value={{ "cc"+post[0]|string }}>Write a comment</button>
+</form>
+<br>
+
+<div class="comments">
+{% if post|length > 4 %}
 	{% for i in range(4,post|length) %}
-	<b><a class="username" href={{ "user/" + post[i][2] }}>{% print post[i][2] %}:</a></b>
+	<b><a class="username" href={{ "user/" + post[i][2] }}>
+		{% print post[i][2] %}:
+	</a></b>
 	{% print post[i][1] %}
-	<br>
-	<br>
+	<br><br>
 	{% endfor %}
-	{% endif %}
+{% endif %}
 
-	</div><!--end of comments div-->
-	
-	<hr>
+</div><!--end of comments div-->
+
+<hr>
 	{% endfor %}
-
-	
-      </div> <!--end of feed div-->
-    </div> <!--end of container div-->
-    
-  </body>
-  
-</html>
+{% endblock %}
