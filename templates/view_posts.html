@@ -14,8 +14,12 @@
 	<p>
 	{% print post[2] %}
 	</p>
-	<font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post[3] }}>{% print post[3] %}</a> <br>
-	{% print post[1] %} </font>
+	<font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post[3] }}>
+	{% print post[3] %}
+	</a>
+	<br>
+	{% print post[1] %} 
+	</font>
 <br><br>
 
 <!--POST OPTIONS-->
@@ -36,9 +40,8 @@
 	<br><br>
 	{% endfor %}
 {% endif %}
-
-</div><!--end of comments div-->
-
+</div>
 <hr>
-	{% endfor %}
+
+{% endfor %}
 {% endblock %}
