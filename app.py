@@ -11,11 +11,10 @@ def login():
         username = request.form['username']
         password = request.form['password']
         if utils.authenticate(username,password):
-            print "authenticated"
             session['username'] = username
             posts = utils.displayposts()
             return redirect('/view_posts')
-        else:             
+        else:
             return render_template('login.html',error = utils.getError())
 
 @app.route('/logout')
