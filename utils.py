@@ -1,16 +1,15 @@
-import sqlite3
+from pymongo import MongoClient
+import hashlib
 import time
 
 error = ""
+connection = MongoClient()
+db = connection['blog']
  
 def authenticate(username,password):
-    conn = sqlite3.connect("blag.db")
-    c = conn.cursor()
-    q = "SELECT password from users WHERE username=:uname"
-    c.execute(q,{"uname":username})
-    result = c.fetchone()
+    result = db.database.find({'name':username, 'password':hashlib.sha224(password).hexdigest()})
     global error
-    if result == None:
+    if len(result) == 0:
         error = "Username does not exist"
         return False
     else:
@@ -45,7 +44,7 @@ def getTime(username):
         time = result[0]
         r = "UPDATE users SET timestamp =:time WHERE username=:uname"
         c.execute(r,{"time":currentTime(),"uname":username})
-        return time;
+    return time;
         
 
 def nextuserid():
