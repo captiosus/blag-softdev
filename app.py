@@ -24,7 +24,7 @@ def logout():
         session.pop('username', None)
     else:
         print 'nope'
-    return redirect(url_for('viewposts'))
+    return redirect('/view_posts')
 
 @app.route("/view_posts", methods = ["GET","POST"])
 @app.route("/", methods = ["GET","POST"])
@@ -32,8 +32,9 @@ def viewposts():
     print 'in viewposts'
     if request.method == "GET":
         posts = utils.displayposts()
-        if len(session.keys())!=0:
-            user=session[session.keys()[0]]
+        if 'username' in session:
+            #print session['username']
+            user=session['username']
         else:
             user=''
         return render_template('view_posts.html',posts = reversed(posts), user=user)
@@ -103,8 +104,8 @@ def createaccount():
 
 @app.route("/user/<username>")
 def user_profile(username=''):
-    if len(session.keys())!=0:
-        user=session[session.keys()[0]]
+    if username in session:
+        user=session['username']
     else:
         user=''
     posts = utils.finduserposts(username)
