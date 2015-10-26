@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-import hashlib, sqlite3
+import hashlib
 from datetime import datetime
 
 connection = MongoClient()
@@ -47,18 +47,15 @@ def deletepost(postid):
     cur.close()
 
 def editpost(postid,username,post):
-    db.blog.update({'postid':postid}, {'$set':{'username':username}})
-    db.blog.update({'postid':postid}, {'$set':{'post':post}})
-    db.blog.update({'postid':postid}, {'$set':{'time':datetime.datetime.now()}})
+    db.post.update({'postid':postid}, {'$set':{'username':username}})
+    db.post.update({'postid':postid}, {'$set':{'post':post}})
+    db.post.update({'postid':postid}, {'$set':{'time':datetime.datetime.now()}})
 
 def displayposts():
-    conn = sqlite3.connect('blag.db')
-    cur = conn.cursor()
-    cur.execute('SELECT postid, timestamp, post, username FROM posts')
-    allposts = cur.fetchall()
+    allposts = db.post.find()
     postscomments = []
     for post in allposts:
-        postid = post[0]
+        postid = post{_id}
         cur.execute('SELECT commentid, comment, username FROM comments WHERE postid=:id',{"id":postid})
         comments = cur.fetchall()
         comments = tuple(comments)
