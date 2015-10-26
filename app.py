@@ -38,10 +38,9 @@ def viewposts():
             user=''
         return render_template('view_posts.html',posts = reversed(posts), user=user)
     else:
-        print session.keys()
-        if len(session.keys())!=0:
-            print 'SEOTHING'
-            user = session[session.keys()[0]]
+        #print session.keys()
+        if 'username' in session:
+            user = session['username']
             print request.form
             # create a post when the button "Bloginate!" is clicked
             if request.form['updatepost'] == 'createpost':
@@ -54,16 +53,23 @@ def viewposts():
                  else:
                      return "you are not logged in"
             # either edit the specific post or delete the post
-            elif utils.is_number(request.form['updatepost']):
-                if float(request.form['updatepost']) > 0:
-                    postid = request.form['updatepost']
-                    post = utils.getpost(postid)
-                    return render_template('editpost.html',postid = postid, user = user, post = post)
-                else:
-                    postid = -float(request.form['updatepost'])
-                    utils.deletepost(postid)
-                    return redirect(url_for('viewposts'))
-            elif utils.is_number(request.form['updatepost'][2:]):
+            if request.form.has_key("editpost"):
+                postid = request.form['editpost']
+                post = utils.getpost(postid)
+                return render_template('editpost.html',postid = postid, user = user, post = post)
+            elif request.form.has_key("deletepost"):
+                postid = request.form['updatepost']
+                utils.deletepost(postid)
+                return redirect(url_for('viewposts'))
+            elif request.form.has_key("makecomment"):
+                postid = request.form['makecomment']
+                post = utils.getpost(postid)
+                return render_template('createcomment.html',postid = postid, user = user, post = post)
+        else:
+            return redirect(url_for('login'))
+         ########
+        if (False):
+            if utils.is_number(request.form['updatepost'][2:]):
                 updatepostinput = request.form['updatepost'][0:2]
                 # from viewposts homepage, user clicked "Write a comment"
                 if updatepostinput == "cc":
@@ -71,24 +77,23 @@ def viewposts():
                     postid = float(postid[2:])
                     post = utils.getpost(postid)
                     return render_template('createcomment.html',postid = postid, user = user, post = post)
-                # from the createcomments page, user submitted comment
+                    # from the createcomments page, user submitted comment
                 elif updatepostinput == "pc":
                     comment = request.form['comment']
                     postid = float(request.form['updatepost'][2:])
                     newcommentid = utils.nextcommentid(postid)
                     utils.createcomment(postid,newcommentid,user,comment)
                     return redirect(url_for('viewposts'))             
-                # from viewposts homepage, user click "Edit post"
+                    # from viewposts homepage, user click "Edit post"
                 elif updatepostinput == "ep":
                     post = request.form['editpost']
                     postid = float(request.form['updatepost'][2:])
                     utils.editpost(postid,user,post)
                     return redirect(url_for('viewposts'))                   
-            else:
-                print 'ELSE'
-                return redirect(url_for('login'))
-        else:
-            return redirect(url_for('login'))
+                else:
+                    print 'ELSE'
+                    return redirect(url_for('login'))
+        #########
 
     
 @app.route("/create_account",methods = ["GET","POST"])

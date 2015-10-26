@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-import hashlib
+import hashlib, sqlite3
 from datetime import datetime
 
 connection = MongoClient()
@@ -20,7 +20,7 @@ def getTime(username):
     result = db.user.find({'username':username})
     if len(result) != 0:
         time = result['time']
-        db.user.update({'username':username}, {'$set':{'time':datetime..now()}})
+        db.user.update({'username':username}, {'$set':{'time':datetime.now()}})
         return time;
     return None
 

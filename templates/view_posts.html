@@ -6,7 +6,7 @@
 	<textarea form="newpost" name="posttext" id="textpost" rows=10 cols=90 placeholder="Enter new post &hellip; if you dare!"></textarea>
 	<br>
 	<button type="submit" name="updatepost" value="createpost">Bloginate!</button>
-
+</form>
 <!--POST FEED-->
 <hr>
 {% for post in posts %}
@@ -23,9 +23,9 @@
 
 <!--POST OPTIONS-->
 <form method="POST">
-<button type="submit" name="updatepost" value={{ post[0] }}>Edit post</button>
-<button type="submit" name="updatepost" value={{ -post[0] }}>Delete post</button>
-<button type="submit" name="updatepost" value={{ "cc"+post[0]|string }}>Write a comment</button>
+<button type="submit" name="editpost" value={{ post[0] }}>Edit post</button>
+<button type="submit" name="deletepost" value={{ post[0] }}>Delete post</button>
+<button type="submit" name="makecomment" value={{ post[0] }}>Write a comment</button>
 </form>
 <br>
 
