@@ -13,38 +13,23 @@ def authenticate(username,password):
         if pw['password'] != hashlib.sha224(password).hexdigest():
             return "Incorrect password"
         else:
-            db.user.update({'username':username}, {'$set':{'time':datetime.now()}})
-            return None
-
-def getTime(username):
-    result = db.user.find({'username':username})
-    if len(result) != 0:
-        time = result['time']
-        db.user.update({'username':username}, {'$set':{'time':datetime.now()}})
-        return time;
-    return None
+            return True
 
 def createuser(username,password):
     user = {}
     user['username'] = username
     user['password'] = password
-    user['time'] = datetime.now()
     db.user.insert(user)
 
 def createpost(newpostid,username,post):
-    conn = sqlite3.connect('blag.db')
-    cur = conn.cursor()
-    cur.execute('INSERT INTO posts(postid,username,post,timestamp) VALUES(?,?,?,?)',(newpostid,username,post,currentTime()))
-    conn.commit()
-    cur.close()
+    post = {"postid": newpostid,
+            "username": username,
+            "post":post}
+    db.posts.insert(post)
+
 
 def deletepost(postid):
-    conn = sqlite3.connect('blag.db')
-    cur = conn.cursor()
-    cur.execute('DELETE FROM posts WHERE postid=:id',{"id":postid})
-    cur.execute('DELETE FROM comments WHERE postid=:id',{"id":postid})
-    conn.commit()
-    cur.close()
+    db.posts.remove( {"postid": postid} )
 
 def editpost(postid,username,post):
     db.blog.update({'postid':postid}, {'$set':{'username':username}})
