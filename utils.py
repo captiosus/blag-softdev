@@ -6,26 +6,28 @@ connection = MongoClient()
 db = connection['blog']
 
 def authenticate(username,password):
-    result = db.user.find_one({'username':username})
+    result = (db.user).find_one({"username":username})
     if result == None:
         return "User does not exist"
     else:
         if result['password'] != hashlib.sha224(password).hexdigest():
             return "Incorrect password"
         else:
-            return True
+            return None
 
 def createuser(username,password):
-    user = {}
-    user['username'] = username
-    user['password'] = password
-    db.user.insert(user)
+    result = db.user.find_one({"username":username})
+    if result == None:
+        user = {}
+        user['username'] = username
+        user['password'] = hashlib.sha224(password).hexdigest()
+        db.user.insert(user)
 
-def createpost(newpostid,username,post):
-    post = {"postid": newpostid,
-            "username": username,
-            "post":post}
-    db.posts.insert(post)
+def createpost(username,post):
+    post = {"username": username,
+            "post":post,
+            "timestamp":datetime.now()}
+    db.post.insert(post)
 
 
 def deletepost(postid):
@@ -34,7 +36,7 @@ def deletepost(postid):
 def editpost(postid,username,post):
     db.post.update({'postid':postid}, {'$set':{'username':username}})
     db.post.update({'postid':postid}, {'$set':{'post':post}})
-    db.post.update({'postid':postid}, {'$set':{'time':datetime.datetime.now()}})
+    db.post.update({'postid':postid}, {'$set':{'time':datetime.now()}})
 
 def displayposts():
     allposts = db.post.find()
@@ -87,10 +89,3 @@ def finduserposts(username):
         postscomments.append(post)
     cur.close()
     return postscomments
-
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False

@@ -29,11 +29,9 @@ def logout():
 @app.route("/view_posts", methods = ["GET","POST"])
 @app.route("/", methods = ["GET","POST"])
 def viewposts():
-    print 'in viewposts'
     if request.method == "GET":
         posts = utils.displayposts()
         if 'username' in session:
-            #print session['username']
             user=session['username']
         else:
             user=''
@@ -48,8 +46,7 @@ def viewposts():
                  print 'creating new post'
                  if 'username' in session:
                      post=request.form['posttext']
-                     newpostid=utils.nextpostid()
-                     utils.createpost(newpostid,user,post)
+                     utils.createpost(user,post)
                      return redirect(url_for('viewposts'))
                  else:
                      return "you are not logged in"
@@ -92,8 +89,8 @@ def editpost(postid):
         post = request.form['editpost']
         postid = request.form['updatepost']
         utils.editpost(postid,user,post)
-        return redirect('/view_posts') 
-    
+        return redirect('/view_posts')
+
 @app.route("/create_account",methods = ["GET","POST"])
 def createaccount():
     if request.method == "GET":
