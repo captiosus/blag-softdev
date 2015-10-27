@@ -56,46 +56,43 @@ def viewposts():
             # either edit the specific post or delete the post
             if request.form.has_key("editpost"):
                 postid = request.form['editpost']
-                post = utils.getpost(postid)
-                return render_template('editpost.html',postid = postid, user = user, post = post)
+                return redirect("/edit_post/{}".format(postid))
             elif request.form.has_key("deletepost"):
                 postid = request.form['updatepost']
                 utils.deletepost(postid)
                 return redirect(url_for('viewposts'))
             elif request.form.has_key("makecomment"):
                 postid = request.form['makecomment']
-                post = utils.getpost(postid)
-                return render_template('createcomment.html',postid = postid, user = user, post = post)
+                return redirect("/create_comment/{}".format(postid))
         else:
             return redirect(url_for('login'))
-         ########
-        if (False):
-            if utils.is_number(request.form['updatepost'][2:]):
-                updatepostinput = request.form['updatepost'][0:2]
-                # from viewposts homepage, user clicked "Write a comment"
-                if updatepostinput == "cc":
-                    postid = request.form['updatepost']
-                    postid = float(postid[2:])
-                    post = utils.getpost(postid)
-                    return render_template('createcomment.html',postid = postid, user = user, post = post)
-                    # from the createcomments page, user submitted comment
-                elif updatepostinput == "pc":
-                    comment = request.form['comment']
-                    postid = float(request.form['updatepost'][2:])
-                    newcommentid = utils.nextcommentid(postid)
-                    utils.createcomment(postid,newcommentid,user,comment)
-                    return redirect(url_for('viewposts'))             
-                    # from viewposts homepage, user click "Edit post"
-                elif updatepostinput == "ep":
-                    post = request.form['editpost']
-                    postid = float(request.form['updatepost'][2:])
-                    utils.editpost(postid,user,post)
-                    return redirect(url_for('viewposts'))                   
-                else:
-                    print 'ELSE'
-                    return redirect(url_for('login'))
-        #########
 
+
+@app.route("/create_comment/<postid>",methods = ["GET","POST"])
+def createcomment(postid):
+    user = session['username']
+    if request.method == "GET":
+        post = utils.getpost(postid)
+        return render_template('createcomment.html',postid = postid, user = user, post = post)
+    else:
+        post = request.form['comment']
+        postid = request.form['updatepost']
+        newcommentid = utils.nextcommentid(postid)
+        utils.createcomment(postid,newcommentid,user,post)
+        return redirect('/view_posts')
+
+
+@app.route("/edit_post/<postid>",methods = ["GET","POST"])
+def editpost(postid):
+    user = session['username']
+    if request.method == "GET":
+        post = utils.getpost(postid)
+        return render_template('editpost.html',postid = postid, user = user, post = post)
+    else:
+        post = request.form['editpost']
+        postid = request.form['updatepost']
+        utils.editpost(postid,user,post)
+        return redirect('/view_posts') 
     
 @app.route("/create_account",methods = ["GET","POST"])
 def createaccount():
