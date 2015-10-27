@@ -36,7 +36,7 @@ def viewposts():
             user=session['username']
         else:
             user=''
-        return render_template('view_posts.html',posts = reversed(posts), user=user)
+        return render_template('view_posts.html', posts = reversed(posts), user=user)
     else:
         #print session.keys()
         if 'username' in session:
