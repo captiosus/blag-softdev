@@ -42,7 +42,7 @@ def displayposts():
     allposts = db.post.find()
     postscomments = []
     for post in allposts:
-        postid = post.cursor_id
+        postid = post['_id']
         comments = db.comment.find({"postid":postid})
         for info in comments:
             post = post + info
