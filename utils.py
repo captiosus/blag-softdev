@@ -13,19 +13,18 @@ def authenticate(username,password):
         if result['password'] != hashlib.sha224(password).hexdigest():
             return "Incorrect password"
         else:
-            return True
+            return None
 
 def createuser(username,password):
     user = {}
     user['username'] = username
-    user['password'] = password
+    user['password'] = hashlib.sha224(password).hexdigest()
     db.user.insert(user)
 
-def createpost(newpostid,username,post):
-    post = {"postid": newpostid,
-            "username": username,
+def createpost(username,post):
+    post = {"username": username,
             "post":post}
-    db.posts.insert(post)
+    db.post.insert(post)
 
 
 def deletepost(postid):
@@ -40,7 +39,7 @@ def displayposts():
     allposts = db.post.find()
     postscomments = []
     for post in allposts:
-        postid = post.cursor_id
+        postid = post['_id']
         comments = db.comment.find({"postid":postid})
         for info in comments:
             post = post + info
