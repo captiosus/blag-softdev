@@ -6,7 +6,7 @@ connection = MongoClient()
 db = connection['blog']
 
 def authenticate(username,password):
-    result = db.user.find_one({'username':username})
+    result = (db.user).find_one({"username":username})
     if result == None:
         return "User does not exist"
     else:
@@ -16,14 +16,17 @@ def authenticate(username,password):
             return None
 
 def createuser(username,password):
-    user = {}
-    user['username'] = username
-    user['password'] = hashlib.sha224(password).hexdigest()
-    db.user.insert(user)
+    result = db.user.find_one({"username":username})
+    if result == None:
+        user = {}
+        user['username'] = username
+        user['password'] = hashlib.sha224(password).hexdigest()
+        db.user.insert(user)
 
 def createpost(username,post):
     post = {"username": username,
-            "post":post}
+            "post":post,
+            "timestamp":datetime.now()}
     db.post.insert(post)
 
 

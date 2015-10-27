@@ -29,7 +29,6 @@ def logout():
 @app.route("/view_posts", methods = ["GET","POST"])
 @app.route("/", methods = ["GET","POST"])
 def viewposts():
-    print 'in viewposts'
     if request.method == "GET":
         posts = utils.displayposts()
         if 'username' in session:
@@ -90,8 +89,8 @@ def editpost(postid):
         post = request.form['editpost']
         postid = request.form['updatepost']
         utils.editpost(postid,user,post)
-        return redirect('/view_posts') 
-    
+        return redirect('/view_posts')
+
 @app.route("/create_account",methods = ["GET","POST"])
 def createaccount():
     if request.method == "GET":
