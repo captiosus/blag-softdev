@@ -33,7 +33,7 @@ def deletepost(postid):
 def editpost(postid,username,post):
     db.post.update({'postid':postid}, {'$set':{'username':username}})
     db.post.update({'postid':postid}, {'$set':{'post':post}})
-    db.post.update({'postid':postid}, {'$set':{'time':datetime.datetime.now()}})
+    db.post.update({'postid':postid}, {'$set':{'time':datetime.now()}})
 
 def displayposts():
     allposts = db.post.find()
@@ -86,10 +86,3 @@ def finduserposts(username):
         postscomments.append(post)
     cur.close()
     return postscomments
-
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
