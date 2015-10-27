@@ -1,70 +1,49 @@
 from pymongo import MongoClient
-import hashlib, sqlite3
+import hashlib
 from datetime import datetime
 
 connection = MongoClient()
 db = connection['blog']
 
 def authenticate(username,password):
-    result = db.user.find({'username':username})
-    if len(result) == 0:
+    result = db.user.find_one({'username':username})
+    if result == None:
         return "User does not exist"
     else:
-        if pw['password'] != hashlib.sha224(password).hexdigest():
+        if result['password'] != hashlib.sha224(password).hexdigest():
             return "Incorrect password"
         else:
-            db.user.update({'username':username}, {'$set':{'time':datetime.now()}})
             return None
-
-def getTime(username):
-    result = db.user.find({'username':username})
-    if len(result) != 0:
-        time = result['time']
-        db.user.update({'username':username}, {'$set':{'time':datetime.now()}})
-        return time;
-    return None
 
 def createuser(username,password):
     user = {}
     user['username'] = username
-    user['password'] = password
-    user['time'] = datetime.now()
+    user['password'] = hashlib.sha224(password).hexdigest()
     db.user.insert(user)
 
-def createpost(newpostid,username,post):
-    conn = sqlite3.connect('blag.db')
-    cur = conn.cursor()
-    cur.execute('INSERT INTO posts(postid,username,post,timestamp) VALUES(?,?,?,?)',(newpostid,username,post,currentTime()))
-    conn.commit()
-    cur.close()
+def createpost(username,post):
+    post = {"username": username,
+            "post":post}
+    db.post.insert(post)
+
 
 def deletepost(postid):
-    conn = sqlite3.connect('blag.db')
-    cur = conn.cursor()
-    cur.execute('DELETE FROM posts WHERE postid=:id',{"id":postid})
-    cur.execute('DELETE FROM comments WHERE postid=:id',{"id":postid})
-    conn.commit()
-    cur.close()
+    db.posts.remove( {"postid": postid} )
 
 def editpost(postid,username,post):
-    db.blog.update({'postid':postid}, {'$set':{'username':username}})
-    db.blog.update({'postid':postid}, {'$set':{'post':post}})
-    db.blog.update({'postid':postid}, {'$set':{'time':datetime.datetime.now()}})
+    db.post.update({'postid':postid}, {'$set':{'username':username}})
+    db.post.update({'postid':postid}, {'$set':{'post':post}})
+    db.post.update({'postid':postid}, {'$set':{'time':datetime.datetime.now()}})
 
 def displayposts():
-    conn = sqlite3.connect('blag.db')
-    cur = conn.cursor()
-    cur.execute('SELECT postid, timestamp, post, username FROM posts')
-    allposts = cur.fetchall()
+    allposts = db.post.find()
     postscomments = []
     for post in allposts:
-        postid = post[0]
-        cur.execute('SELECT commentid, comment, username FROM comments WHERE postid=:id',{"id":postid})
-        comments = cur.fetchall()
-        comments = tuple(comments)
-        post = post + comments
+        postid = post['_id']
+        comments = db.comment.find({"postid":postid})
+        for info in comments:
+            post = post + info
         postscomments.append(post)
-    cur.close()
     return postscomments
 
 def getpost(postid):
