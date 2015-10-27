@@ -10,13 +10,13 @@ def login():
     else:
         username = request.form['username']
         password = request.form['password']
-        error = utils.authenticate(username)
+        error = utils.authenticate(username, password)
         if error == None:
             session['username'] = username
             posts = utils.displayposts()
             return redirect('/view_posts')
         else:
-            return render_template('login.html',error = eror)
+            return render_template('login.html',error = error)
 
 @app.route('/logout')
 def logout():

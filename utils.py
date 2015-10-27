@@ -6,11 +6,11 @@ connection = MongoClient()
 db = connection['blog']
 
 def authenticate(username,password):
-    result = db.user.find({'username':username})
-    if len(result) == 0:
+    result = db.user.find_one({'username':username})
+    if result == None:
         return "User does not exist"
     else:
-        if pw['password'] != hashlib.sha224(password).hexdigest():
+        if result['password'] != hashlib.sha224(password).hexdigest():
             return "Incorrect password"
         else:
             return True
@@ -40,13 +40,11 @@ def displayposts():
     allposts = db.post.find()
     postscomments = []
     for post in allposts:
-        postid = post{_id}
-        cur.execute('SELECT commentid, comment, username FROM comments WHERE postid=:id',{"id":postid})
-        comments = cur.fetchall()
-        comments = tuple(comments)
-        post = post + comments
+        postid = post.cursor_id
+        comments = db.comment.find({"postid":postid})
+        for info in comments:
+            post = post + info
         postscomments.append(post)
-    cur.close()
     return postscomments
 
 def getpost(postid):
