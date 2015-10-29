@@ -11,13 +11,13 @@
 <hr>
 {% for post in posts %}
 	<p>
-	{% print post[2] %}
+	{% print post['post'] %}
 	</p>
-	<!-- <font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post[3] }}> -->
-	{% print post[3] %}
+	<font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post['username'] }}>
+	    {% print post['username'] %}
 	</a>
 	<br>
-	{% print post[1] %}
+	{% print post['timestamp'] %}
 	</font>
 <br><br>
 

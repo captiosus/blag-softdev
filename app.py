@@ -35,15 +35,13 @@ def viewposts():
             user=session['username']
         else:
             user=''
-        return render_template('view_posts.html', posts = reversed(posts), user=user)
+        return render_template('view_posts.html', posts = posts, user=user)
     else:
         #print session.keys()
         if 'username' in session:
             user = session['username']
-            print request.form
             # create a post when the button "Bloginate!" is clicked
             if request.form['updatepost'] == 'createpost':
-                 print 'creating new post'
                  if 'username' in session:
                      post=request.form['posttext']
                      utils.createpost(user,post)

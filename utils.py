@@ -39,15 +39,15 @@ def editpost(postid,username,post):
     db.post.update({'postid':postid}, {'$set':{'time':datetime.now()}})
 
 def displayposts():
-    allposts = db.post.find()
-    postscomments = []
-    for post in allposts:
-        postid = post['_id']
-        comments = db.comment.find({"postid":postid})
-        for info in comments:
-            post = post + info
-        postscomments.append(post)
-    return postscomments
+    allposts = db.post.find({'$query': {}, '$orderby': {'timestamp':-1}})
+    #postscomments = []
+    #for post in allposts:
+        #postid = post['_id']
+        #comments = db.comment.find({"postid":postid})
+        #for comment in comments:
+        #post = post + info
+        #postscomments.append(post)
+    return allposts
 
 def getpost(postid):
     conn = sqlite3.connect('blag.db')
