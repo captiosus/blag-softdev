@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request,session
 from flask import redirect,url_for
-import utils
+import utils, uuid
 
 app = Flask(__name__)
 @app.route("/login", methods = ["GET","POST"])
@@ -13,7 +13,6 @@ def login():
         error = utils.authenticate(username, password)
         if error == None:
             session['username'] = username
-            posts = utils.displayposts()
             return redirect('/view_posts')
         else:
             return render_template('login.html',error = error)
@@ -37,7 +36,6 @@ def viewposts():
             user=''
         return render_template('view_posts.html', posts = posts, user=user)
     else:
-        #print session.keys()
         if 'username' in session:
             user = session['username']
             # create a post when the button "Bloginate!" is clicked
@@ -110,5 +108,7 @@ def user_profile(username=''):
 
 if __name__ == "__main__":
     app.debug = True
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes = 60);
     app.secret_key="Don't store this on github"
     app.run(host = '0.0.0.0', port = 5000)
