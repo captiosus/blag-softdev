@@ -1,5 +1,5 @@
-from flask import Flask,render_template,request,session
-from flask import redirect,url_for
+from flask import Flask, render_template, request, session, redirect, url_for
+from datetime import timedelta
 import utils, uuid
 
 app = Flask(__name__)
@@ -13,6 +13,8 @@ def login():
         error = utils.authenticate(username, password)
         if error == None:
             session['username'] = username
+            session.permanent = True
+            app.permanent_session_lifetime = timedelta(minutes = 60);
             return redirect('/view_posts')
         else:
             return render_template('login.html',error = error)
@@ -108,7 +110,5 @@ def user_profile(username=''):
 
 if __name__ == "__main__":
     app.debug = True
-    session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes = 60);
     app.secret_key="Don't store this on github"
     app.run(host = '0.0.0.0', port = 5000)
