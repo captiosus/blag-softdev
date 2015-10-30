@@ -13,6 +13,8 @@ def login():
         error = utils.authenticate(username, password)
         if error == None:
             session['username'] = username
+            session['id'] = uuid.uuid4()
+            print session['id']
             session.permanent = True
             app.permanent_session_lifetime = timedelta(minutes = 60);
             return redirect('/view_posts')
@@ -42,12 +44,9 @@ def viewposts():
             user = session['username']
             # create a post when the button "Bloginate!" is clicked
             if request.form['updatepost'] == 'createpost':
-                 if 'username' in session:
-                     post=request.form['posttext']
-                     utils.createpost(user,post)
-                     return redirect(url_for('viewposts'))
-                 else:
-                     return "you are not logged in"
+                post=request.form['posttext']
+                utils.createpost(user,post)
+                return redirect(url_for('viewposts'))
             # either edit the specific post or delete the post
             if request.form.has_key("editpost"):
                 postid = request.form['editpost']

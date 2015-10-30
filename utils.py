@@ -29,9 +29,8 @@ def createpost(username,post):
             "timestamp":datetime.now()}
     db.post.insert(post)
 
-
 def deletepost(postid):
-    db.posts.remove( {"postid": postid} )
+    db.post.remove( {"postid": postid} )
 
 def editpost(postid,username,post):
     db.post.update({'postid':postid}, {'$set':{'username':username}})
@@ -89,3 +88,7 @@ def finduserposts(username):
         postscomments.append(post)
     cur.close()
     return postscomments
+
+def checksession(username, sid):
+    db.session.find({'username':username; 'id':sid})
+    
