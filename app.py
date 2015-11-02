@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from datetime import timedelta
-import utils, uuid
+import utils#, uuid
 
 app = Flask(__name__)
 @app.route("/login", methods = ["GET","POST"])
@@ -13,8 +13,8 @@ def login():
         error = utils.authenticate(username, password)
         if error == None:
             session['username'] = username
-            session['id'] = uuid.uuid4()
-            print session['id']
+            #session['id'] = uuid.uuid4()
+            utils.newsession(session)
             session.permanent = True
             app.permanent_session_lifetime = timedelta(minutes = 60);
             return redirect('/view_posts')
@@ -64,6 +64,8 @@ def viewposts():
 
 @app.route("/create_comment/<postid>",methods = ["GET","POST"])
 def createcomment(postid):
+    if database.checksession():
+        print "AAAAAAAAAAAAAAAAAAAA"
     user = session['username']
     if request.method == "GET":
         post = utils.getpost(postid)

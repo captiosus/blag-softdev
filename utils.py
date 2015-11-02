@@ -89,6 +89,12 @@ def finduserposts(username):
     cur.close()
     return postscomments
 
-def checksession(username, sid):
-    db.session.find({'username':username; 'id':sid})
+def newsession(session):
+    db.session.insert( {"username":session.username, "id":session.id} )
+
+def checksession(session):
+    results = db.session.find( {'username':session.username, 'id':session.id} )
+    return results.count() > 0
     
+def deletesession(session):
+    db.post.remove( {"username":session.username, "id": session.id} )
