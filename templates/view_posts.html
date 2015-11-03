@@ -23,22 +23,20 @@
 
 <!--POST OPTIONS-->
 <form method="POST">
-<button type="submit" name="editpost" value={{ post[0] }}>Edit post</button>
-<button type="submit" name="deletepost" value={{ post[0] }}>Delete post</button>
-<button type="submit" name="makecomment" value={{ post[0] }}>Write a comment</button>
+<button type="submit" name="editpost" value={{ post['_id'] }}>Edit post</button>
+<button type="submit" name="deletepost" value={{ post['_id'] }}>Delete post</button>
+<button type="submit" name="makecomment" value={{ post['_id'] }}>Write a comment</button>
 </form>
 <br>
 
 <div class="comments">
-{% if post|length > 4 %}
-	{% for i in range(4,post|length) %}
-	<b><a class="username" href={{ "user/" + post[i][2] }}>
-		{% print post[i][2] %}:
-	</a></b>
-	{% print post[i][1] %}
-	<br><br>
-	{% endfor %}
-{% endif %}
+  {% for comment in post['comment'] %}
+  <b><a class="username" href={{ "user/" + comment['username'] }}>
+      {% print comment['username'] %}:
+  </a></b>
+  {% print comment['comment'] %}
+  <br><br>
+  {% endfor %}
 </div>
 <hr>
 

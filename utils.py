@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 import hashlib
 from datetime import datetime
 
@@ -31,31 +32,22 @@ def createpost(username,post):
 
 
 def deletepost(postid):
-    db.posts.remove( {"postid": postid} )
+    db.posts.remove( {"_id":ObjectId(postid)} )
 
 def editpost(postid,username,post):
-    db.post.update({'postid':postid}, {'$set':{'username':username}})
-    db.post.update({'postid':postid}, {'$set':{'post':post}})
-    db.post.update({'postid':postid}, {'$set':{'time':datetime.now()}})
+    db.post.update({'_id':ObjectId(postid)}, {'$set':{'username':username, 'post':post, 'timestamp':datetime.now()}})
 
 def displayposts():
     allposts = db.post.find({'$query': {}, '$orderby': {'timestamp':-1}})
-    #postscomments = []
-    #for post in allposts:
-        #postid = post['_id']
-        #comments = db.comment.find({"postid":postid})
-        #for comment in comments:
-        #post = post + info
-        #postscomments.append(post)
+    for post in allposts:
+        postid = post['_id']
+        comments = db.comment.find({"postid":postid})
+        post['comment'] = comments
+    allposts.rewind()
     return allposts
 
 def getpost(postid):
-    conn = sqlite3.connect('blag.db')
-    cur = conn.cursor()
-    cur.execute('SELECT post FROM posts WHERE postid=:id',{"id":postid})
-    post = cur.fetchone()[0]
-    cur.close()
-    return post
+    return db.post.find_one(ObjectId(postid))
 
 def nextcommentid(postid):
     conn = sqlite3.connect('blag.db')

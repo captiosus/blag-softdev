@@ -23,8 +23,6 @@ def login():
 def logout():
     if 'username' in session:
         session.pop('username', None)
-    else:
-        print 'nope'
     return redirect('/view_posts')
 
 @app.route("/view_posts", methods = ["GET","POST"])
@@ -33,24 +31,25 @@ def viewposts():
     if request.method == "GET":
         posts = utils.displayposts()
         if 'username' in session:
-            user=session['username']
+            user = session['username']
         else:
-            user=''
+            user = None
         return render_template('view_posts.html', posts = posts, user=user)
     else:
         if 'username' in session:
             user = session['username']
             # create a post when the button "Bloginate!" is clicked
-            if request.form['updatepost'] == 'createpost':
-                 if 'username' in session:
-                     post=request.form['posttext']
-                     utils.createpost(user,post)
-                     return redirect(url_for('viewposts'))
-                 else:
-                     return "you are not logged in"
+            if request.form.has_key('updatepost'):
+                if 'username' in session:
+                    post = request.form['posttext']
+                    utils.createpost(user,post)
+                    return redirect(url_for('viewposts'))
+                else:
+                    return "you are not logged in"
             # either edit the specific post or delete the post
             if request.form.has_key("editpost"):
                 postid = request.form['editpost']
+                print postid
                 return redirect("/edit_post/{}".format(postid))
             elif request.form.has_key("deletepost"):
                 postid = request.form['updatepost']
@@ -61,7 +60,6 @@ def viewposts():
                 return redirect("/create_comment/{}".format(postid))
         else:
             return redirect(url_for('login'))
-
 
 @app.route("/create_comment/<postid>",methods = ["GET","POST"])
 def createcomment(postid):
@@ -82,7 +80,7 @@ def editpost(postid):
     user = session['username']
     if request.method == "GET":
         post = utils.getpost(postid)
-        return render_template('editpost.html',postid = postid, user = user, post = post)
+        return render_template('editpost.html', postid = post['_id'], user = post['username'], post = post['post'])
     else:
         post = request.form['editpost']
         postid = request.form['updatepost']
