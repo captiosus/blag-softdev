@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from datetime import timedelta
-import utils#, uuid
+import utils, uuid
 
 app = Flask(__name__)
 @app.route("/login", methods = ["GET","POST"])
@@ -13,7 +13,7 @@ def login():
         error = utils.authenticate(username, password)
         if error == None:
             session['username'] = username
-            #session['id'] = uuid.uuid4()
+            session['id'] = uuid.uuid4()
             utils.newsession(session)
             session.permanent = True
             app.permanent_session_lifetime = timedelta(minutes = 60);
@@ -23,8 +23,9 @@ def login():
 
 @app.route('/logout')
 def logout():
-    if 'username' in session:
+    if utils.checksession(session):
         session.pop('username', None)
+        session.pop('id', None)
     else:
         print 'nope'
     return redirect('/view_posts')
@@ -40,7 +41,7 @@ def viewposts():
             user=''
         return render_template('view_posts.html', posts = posts, user=user)
     else:
-        if 'username' in session:
+        if utils.checksession(session):
             user = session['username']
             # create a post when the button "Bloginate!" is clicked
             if request.form['updatepost'] == 'createpost':
@@ -64,8 +65,6 @@ def viewposts():
 
 @app.route("/create_comment/<postid>",methods = ["GET","POST"])
 def createcomment(postid):
-    if database.checksession():
-        print "AAAAAAAAAAAAAAAAAAAA"
     user = session['username']
     if request.method == "GET":
         post = utils.getpost(postid)
@@ -102,7 +101,7 @@ def createaccount():
 
 @app.route("/user/<username>")
 def user_profile(username=''):
-    if username in session:
+    if utils.checksession(session):
         user=session['username']
     else:
         user=''
