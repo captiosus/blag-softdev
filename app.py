@@ -49,10 +49,9 @@ def viewposts():
             # either edit the specific post or delete the post
             if request.form.has_key("editpost"):
                 postid = request.form['editpost']
-                print postid
                 return redirect("/edit_post/{}".format(postid))
             elif request.form.has_key("deletepost"):
-                postid = request.form['updatepost']
+                postid = request.form['deletepost']
                 utils.deletepost(postid)
                 return redirect(url_for('viewposts'))
             elif request.form.has_key("makecomment"):
@@ -66,12 +65,11 @@ def createcomment(postid):
     user = session['username']
     if request.method == "GET":
         post = utils.getpost(postid)
-        return render_template('createcomment.html',postid = postid, user = user, post = post)
+        return render_template('createcomment.html',postid = post['_id'], user = post['username'], post = post['post'])
     else:
         post = request.form['comment']
         postid = request.form['updatepost']
-        newcommentid = utils.nextcommentid(postid)
-        utils.createcomment(postid,newcommentid,user,post)
+        utils.createcomment(postid, user, post)
         return redirect('/view_posts')
 
 

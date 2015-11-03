@@ -32,7 +32,7 @@ def createpost(username,post):
 
 
 def deletepost(postid):
-    db.posts.remove( {"_id":ObjectId(postid)} )
+    db.post.remove( {"_id":ObjectId(postid)} )
 
 def editpost(postid,username,post):
     db.post.update({'_id':ObjectId(postid)}, {'$set':{'username':username, 'post':post, 'timestamp':datetime.now()}})
@@ -41,7 +41,7 @@ def displayposts():
     allposts = db.post.find({'$query': {}, '$orderby': {'timestamp':-1}})
     for post in allposts:
         postid = post['_id']
-        comments = db.comment.find({"postid":postid})
+        comments = db.comment.find({'postid':ObjectId(postid)})
         post['comment'] = comments
     allposts.rewind()
     return allposts
@@ -49,22 +49,12 @@ def displayposts():
 def getpost(postid):
     return db.post.find_one(ObjectId(postid))
 
-def nextcommentid(postid):
-    conn = sqlite3.connect('blag.db')
-    cur = conn.cursor()
-    cur.execute('SELECT MAX(commentid) FROM comments WHERE postid=:id',{"id":postid})
-    commentid = cur.fetchone()
-    cur.close()
-    if commentid[0] is None:
-        return 1
-    return commentid[0]+1
-
-def createcomment(postid,newcommentid,username,comment):
-    conn = sqlite3.connect('blag.db')
-    cur = conn.cursor()
-    cur.execute('INSERT INTO comments(postid,commentid,username,comment,timestamp) VALUES(?,?,?,?,?)',(postid,newcommentid,username,comment,currentTime()))
-    conn.commit()
-    cur.close()
+def createcomment(postid, username, comment):
+    comment = {"username": username,
+               "postid":ObjectId(postid),
+               "comment":comment,
+               "timestamp":datetime.now()}
+    db.comment.insert(comment)
 
 def finduserposts(username):
     conn = sqlite3.connect('blag.db')
