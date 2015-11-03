@@ -94,8 +94,6 @@ def newsession(session):
 
 def checksession(session):
     results = db.session.find( {'username':session['username'], 'id':session['id']} )
-    print results
-    print results[0]
     return results.count() > 0
     
 def deletesession(session):
