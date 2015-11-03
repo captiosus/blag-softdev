@@ -5,31 +5,29 @@
 <hr>
 
 {% if posts == [] %}
-	{% print username + " has no posts."%}
+{% print username + " has no posts."%}
 {% else %}
-	<h2> {{username}}'s posts </h2>
+<h2> {{username}}'s posts </h2>
 {% endif %}
 
 <!----------------->
 {% for post in posts %}
-	
-	<p>{% print post[2] %}</p>
-	<font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post[3] }}>
-		{% print post[3] %}</a><br>
-		{% print post[1] %} 
-	</font>
-	<br><br>
-	
-	<!---Comment Box--->
-	<div class="comments">
-		{% if post|length > 4 %}
-		{% for i in range(4,post|length) %}
-		<b><a class="username" href={{ "user/" + post[i][2] }}>{% print post[i][2] %}:</a></b>
-		{% print post[i][1] %}
-		<br>
-		{% endfor %}
-		{% endif %}	
-	</div>
-	<hr>
+
+<p>{% print post['post'] %}</p>
+<font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post['username'] }}>
+    {% print post['username'] %}</a><br>
+  {% print post['timestamp'] %} 
+</font>
+<br><br>
+
+<!---Comment Box--->
+<div class="comments">
+  {% for comment in post['comment'] %}
+  <b><a class="username" href={{ "user/" + comment['username'] }}>{% print comment['username'] %}:</a></b>
+  {% print comment['comment'] %}
+  <br>
+  {% endfor %}	
+</div>
+<hr>
 {% endfor %}
 {% endblock %}

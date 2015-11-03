@@ -39,12 +39,13 @@ def editpost(postid,username,post):
 
 def displayposts():
     allposts = db.post.find({'$query': {}, '$orderby': {'timestamp':-1}})
+    postscomments = []
     for post in allposts:
         postid = post['_id']
         comments = db.comment.find({'postid':ObjectId(postid)})
         post['comment'] = comments
-    allposts.rewind()
-    return allposts
+        postscomments.append(post)
+    return postscomments
 
 def getpost(postid):
     return db.post.find_one(ObjectId(postid))
@@ -57,17 +58,11 @@ def createcomment(postid, username, comment):
     db.comment.insert(comment)
 
 def finduserposts(username):
-    conn = sqlite3.connect('blag.db')
-    cur = conn.cursor()
-    cur.execute('SELECT postid, timestamp, post, username FROM posts where username=:uname',{"uname":username})
-    allposts = cur.fetchall()
+    allposts = db.post.find({"username":username})
     postscomments = []
     for post in allposts:
-        postid = post[0]
-        cur.execute('SELECT commentid, comment, username FROM comments WHERE postid=:id',{"id":postid})
-        comments = cur.fetchall()
-        comments = tuple(comments)
-        post = post + comments
+        postid = post['_id']
+        comments = db.comment.find({'postid':ObjectId(postid)})
+        post['comment'] = comments
         postscomments.append(post)
-    cur.close()
     return postscomments
