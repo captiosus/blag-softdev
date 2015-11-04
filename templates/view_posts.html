@@ -1,7 +1,6 @@
 {% extends "master.html" %}
 
 {% block body %}
-<<<<<<< HEAD
 <div class="feed">
 	<h2>Add new post:</h2>
 	<form method="POST" id="newpost">
@@ -31,47 +30,16 @@
 <br>
 
 <hr>
-=======
-<h2>Add new post:</h2>
-<form method="POST" id="newpost">
-  <textarea form="newpost" name="posttext" id="textpost" rows=10 cols=90 placeholder="Enter new post &hellip; if you dare!"></textarea>
-  <br>
-  <button type="submit" name="updatepost" value="createpost">Bloginate!</button>
-</form>
-<!--POST FEED-->
-<hr>
-{% for post in posts %}
-<p>
-  {% print post['post'] %}
-</p>
-<font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post['username'] }}>
-    {% print post['username'] %}
-  </a>
-  <br>
-  {% print post['timestamp'] %}
-</font>
-<br><br>
-
-<!--POST OPTIONS-->
-<form method="POST">
-  <button type="submit" name="editpost" value={{ post['_id'] }}>Edit post</button>
-  <button type="submit" name="deletepost" value={{ post['_id'] }}>Delete post</button>
-  <button type="submit" name="makecomment" value={{ post['_id'] }}>Write a comment</button>
-</form>
-<br>
-
 <div class="comments">
   {% for comment in post['comment'] %}
   <b><a class="username" href={{ "user/" + comment['username'] }}>
-      {% print comment['username'] %}
+      {% print comment['username'] %}:
   </a></b>
-  {% print comment['comment'] %}
-  <br>
+  	{% print comment['comment'] %}
+	<br>
   <br>
   {% endfor %}
 </div>
 <br>
-
->>>>>>> c2f17469dd746fbb2a5d4ef398a0817011ce9ca1
 {% endfor %}
 {% endblock %}

@@ -32,6 +32,7 @@ def createpost(username,post):
     db.post.insert(post)
 
 def deletepost(postid):
+    db.comment.delete_many({"postid": str(postid)})
     db.post.remove( {"_id":ObjectId(postid)} )
 
 def editpost(postid,username,post):
@@ -42,40 +43,21 @@ def displayposts():
     postscomments = []
     for post in allposts:
         postid = post['_id']
-        comments = db.comment.find({'postid':ObjectId(postid)})
+        print(postid)
+        comments = commentsbyid(postid)
         post['comment'] = comments
         postscomments.append(post)
     return postscomments
 
 def getpost(postid):
-    # conn = sqlite3.connect('blag.db')
-    # cur = conn.cursor()
-    # cur.execute('SELECT post FROM posts WHERE postid=:id',{"id":postid})
-    # post = cur.fetchone()[0]
-    # cur.close()
-    # return post
     post = db.post.find_one({"_id": ObjectId(postid)});
     return post["post"];
 
-# def nextcommentid(postid):
-#     conn = sqlite3.connect('blag.db')
-#     cur = conn.cursor()
-#     cur.execute('SELECT MAX(commentid) FROM comments WHERE postid=:id',{"id":postid})
-#     commentid = cur.fetchone()
-#     cur.close()
-#     if commentid[0] is None:
-#         return 1
-#     return commentid[0]+1
 def commentsbyid(postid):
-    postcomments = db.comment.find({'$query': {"postid": postid}, '$orderby': {'timestamp':-1}})
+    postcomments = db.comment.find({"postid": str(postid)})
     return postcomments
 
 def createcomment(postid,username,comment):
-    # conn = sqlite3.connect('blag.db')
-    # cur = conn.cursor()
-    # cur.execute('INSERT INTO comments(postid,commentid,username,comment,timestamp) VALUES(?,?,?,?,?)',(postid,newcommentid,username,comment,currentTime()))
-    # conn.commit()
-    # cur.close()
     comment = {"username": username,
                "postid":postid,
                "comment":comment,
@@ -83,20 +65,6 @@ def createcomment(postid,username,comment):
     db.comment.insert(comment)
 
 def finduserposts(username):
-    # conn = sqlite3.connect('blag.db')
-    # cur = conn.cursor()
-    # cur.execute('SELECT postid, timestamp, post, username FROM posts where username=:uname',{"uname":username})
-    # allposts = cur.fetchall()
-    # postscomments = []
-    # for post in allposts:
-    #     postid = post[0]
-    #     cur.execute('SELECT commentid, comment, username FROM comments WHERE postid=:id',{"id":postid})
-    #     comments = cur.fetchall()
-    #     comments = tuple(comments)
-    #     post = post + comments
-    #     postscomments.append(post)
-    # cur.close()
-    # return postscomments
     userposts = db.post.find({'$query': {"username": username}, '$orderby': {'timestamp':-1}})
     return userposts
 
