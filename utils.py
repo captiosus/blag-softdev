@@ -77,4 +77,4 @@ def checksession(session):
     return results.count() > 0
     
 def deletesession(session):
-    db.post.remove( {"username":session['username'], "id": sesion['id']} )
+    db.session.remove( {"username":session['username'], "id": sesion['id']} )

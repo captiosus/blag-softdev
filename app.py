@@ -26,8 +26,6 @@ def logout():
     if utils.checksession(session):
         session.pop('username', None)
         session.pop('id', None)
-    else:
-        print 'nope'
     return redirect('/view_posts')
 
 @app.route("/view_posts", methods = ["GET","POST"])
@@ -49,8 +47,6 @@ def viewposts():
                     post = request.form['posttext']
                     utils.createpost(user,post)
                     return redirect(url_for('viewposts'))
-                else:
-                    return "you are not logged in"
             # either edit the specific post or delete the post
             if request.form.has_key("editpost"):
                 postid = request.form['editpost']
@@ -67,7 +63,10 @@ def viewposts():
 
 @app.route("/create_comment/<postid>",methods = ["GET","POST"])
 def createcomment(postid):
-    user = session['username']
+    if utils.checksession(session):
+        user = session.get('username')
+    else:
+        return redirect('/view_posts')
     if request.method == "GET":
         post = utils.getpost(postid)
         return render_template('createcomment.html',postid = post['_id'], user = post['username'], post = post['post'])
@@ -77,10 +76,12 @@ def createcomment(postid):
         utils.createcomment(postid, user, post)
         return redirect('/view_posts')
 
-
 @app.route("/edit_post/<postid>",methods = ["GET","POST"])
 def editpost(postid):
-    user = session['username']
+    if utils.checksession(session):
+        user = session.get('username')
+    else:
+        return redirect('/view_posts')
     if request.method == "GET":
         post = utils.getpost(postid)
         return render_template('editpost.html', postid = post['_id'], user = post['username'], post = post['post'])
@@ -103,9 +104,9 @@ def createaccount():
 @app.route("/user/<username>")
 def user_profile(username=''):
     if utils.checksession(session):
-        user=session['username']
+      user=session['username']
     else:
-        user=''
+       user=''
     posts = utils.finduserposts(username)
     return render_template("profile.html", username=username, user=user, posts=posts)
 
