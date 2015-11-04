@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 import hashlib
 from datetime import datetime
 from bson.objectid import ObjectId
@@ -30,26 +31,21 @@ def createpost(username,post):
             "timestamp":datetime.now()}
     db.post.insert(post)
 
-
 def deletepost(postid):
-    res = db.post.delete_one( {"_id": ObjectId(postid)} )
-    print(res.acknowledged)
+    db.post.remove( {"_id":ObjectId(postid)} )
 
 def editpost(postid,username,post):
-    db.post.update({'_id':ObjectId(postid)}, {'$set':{'username':username}})
-    db.post.update({'_id':ObjectId(postid)}, {'$set':{'post':post}})
-    db.post.update({'_id':ObjectId(postid)}, {'$set':{'time':datetime.now()}})
+    db.post.update({'_id':ObjectId(postid)}, {'$set':{'username':username, 'post':post, 'timestamp':datetime.now()}})
 
 def displayposts():
     allposts = db.post.find({'$query': {}, '$orderby': {'timestamp':-1}})
-    #postscomments = []
-    #for post in allposts:
-        #postid = post['_id']
-        #comments = db.comment.find({"postid":postid})
-        #for comment in comments:
-        #post = post + info
-        #postscomments.append(post)
-    return allposts
+    postscomments = []
+    for post in allposts:
+        postid = post['_id']
+        comments = db.comment.find({'postid':ObjectId(postid)})
+        post['comment'] = comments
+        postscomments.append(post)
+    return postscomments
 
 def getpost(postid):
     # conn = sqlite3.connect('blag.db')
@@ -110,3 +106,16 @@ def is_number(s):
         return True
     except ValueError:
         return False
+
+def newsession(session):
+    db.session.insert( {"username":session['username'], "id":session['id']} )
+
+def checksession(session):
+    if 'username' in session and 'id' in session:
+        results = db.session.find( {'username':session['username'], 'id':session['id']} )
+    else:
+        return False
+    return results.count() > 0
+
+def deletesession(session):
+    db.session.remove( {"username":session['username'], "id": sesion['id']} )
