@@ -2,7 +2,6 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import hashlib
 from datetime import datetime
-from bson.objectid import ObjectId
 
 connection = MongoClient()
 db = connection['blog']

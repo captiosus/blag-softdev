@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route("/login", methods = ["GET","POST"])
 def login():
     if request.method == "GET":
-        return render_template('login.html')
+        return render_template('login.html', user = session.get('username'))
     else:
         username = request.form['username']
         password = request.form['password']
@@ -19,7 +19,8 @@ def login():
             app.permanent_session_lifetime = timedelta(minutes = 60);
             return redirect('/view_posts')
         else:
-            return render_template('login.html',error = error)
+            print session.get('username')
+            return render_template('login.html', user = session.get('username'), error = error)
 
 @app.route('/logout')
 def logout():
@@ -34,9 +35,9 @@ def viewposts():
     if request.method == "GET":
         posts = utils.displayposts()
         if utils.checksession(session):
-            user=session['username']
+            user = session['username']
         else:
-            user=''
+            user = None
         return render_template('view_posts.html',posts = posts, user=user)
     else:
         if utils.checksession(session):
@@ -100,7 +101,7 @@ def createcomment(postid):
 @app.route("/create_account",methods = ["GET","POST"])
 def createaccount():
     if request.method == "GET":
-        return render_template("create_account.html")
+        return render_template("create_account.html", user = session.get('username'))
     else:
         username = request.form['username']
         password = request.form['password']
@@ -110,9 +111,9 @@ def createaccount():
 @app.route("/user/<username>")
 def user_profile(username=''):
     if utils.checksession(session):
-      user=session['username']
+      user = session['username']
     else:
-       user=''
+       user = None
     posts = utils.finduserposts(username)
     return render_template("profile.html", username=username, user=user, posts=posts)
 
