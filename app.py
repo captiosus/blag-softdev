@@ -13,6 +13,8 @@ def login():
         error = utils.authenticate(username, password)
         if error == None:
             session['username'] = username
+            session['id'] = uuid.uuid4()
+            utils.newsession(session)
             session.permanent = True
             app.permanent_session_lifetime = timedelta(minutes = 60);
             return redirect('/view_posts')
@@ -21,8 +23,11 @@ def login():
 
 @app.route('/logout')
 def logout():
-    if 'username' in session:
+    if utils.checksession(session):
         session.pop('username', None)
+        session.pop('id', None)
+    else:
+        print 'nope'
     return redirect('/view_posts')
 
 @app.route("/view_posts", methods = ["GET","POST"])
@@ -36,11 +41,11 @@ def viewposts():
             user = None
         return render_template('view_posts.html', posts = posts, user=user)
     else:
-        if 'username' in session:
+        if utils.checksession(session):
             user = session['username']
             # create a post when the button "Bloginate!" is clicked
             if request.form.has_key('updatepost'):
-                if 'username' in session:
+                if utils.checksession(session):
                     post = request.form['posttext']
                     utils.createpost(user,post)
                     return redirect(url_for('viewposts'))
@@ -97,7 +102,7 @@ def createaccount():
 
 @app.route("/user/<username>")
 def user_profile(username=''):
-    if username in session:
+    if utils.checksession(session):
         user=session['username']
     else:
         user=''

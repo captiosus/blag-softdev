@@ -30,7 +30,6 @@ def createpost(username,post):
             "timestamp":datetime.now()}
     db.post.insert(post)
 
-
 def deletepost(postid):
     db.post.remove( {"_id":ObjectId(postid)} )
 
@@ -66,3 +65,16 @@ def finduserposts(username):
         post['comment'] = comments
         postscomments.append(post)
     return postscomments
+
+def newsession(session):
+    db.session.insert( {"username":session['username'], "id":session['id']} )
+
+def checksession(session):
+    if 'username' in session and 'id' in session:
+        results = db.session.find( {'username':session['username'], 'id':session['id']} )
+    else:
+        return False
+    return results.count() > 0
+    
+def deletesession(session):
+    db.post.remove( {"username":session['username'], "id": sesion['id']} )
