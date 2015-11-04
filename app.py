@@ -32,33 +32,52 @@ def logout():
 def viewposts():
     if request.method == "GET":
         posts = utils.displayposts()
-        if 'username' in session:
-            user=session['username']
+        if len(session.keys())!=0:
+            user=session[session.keys()[0]]
         else:
             user=''
-        return render_template('view_posts.html', posts = posts, user=user)
+        return render_template('view_posts.html',posts = posts, user=user)
     else:
-        if 'username' in session:
-            user = session['username']
+        if len(session.keys())!=0:
+            user = session[session.keys()[0]]
+            updatepostinput = request.form['updatepost'][0:2]
+            print(updatepostinput)
             # create a post when the button "Bloginate!" is clicked
-            if request.form['updatepost'] == 'createpost':
+            if updatepostinput == "cr":
                  if 'username' in session:
                      post=request.form['posttext']
                      utils.createpost(user,post)
                      return redirect(url_for('viewposts'))
                  else:
-                     return "you are not logged in"
-            # either edit the specific post or delete the post
-            if request.form.has_key("editpost"):
-                postid = request.form['editpost']
-                return redirect("/edit_post/{}".format(postid))
-            elif request.form.has_key("deletepost"):
-                postid = request.form['updatepost']
+                     return redirect(url_for('login'))
+            # from viewposts homepage, user clicked "Write a comment"
+            elif updatepostinput == "wc":
+                postid = request.form['updatepost'][2:]
+                post = utils.getpost(postid)
+                return render_template('createcomment.html',postid = postid, user = user, post = post)
+            # from the createcomments page, user submitted comment
+            elif updatepostinput == "pc":
+                comment = request.form['comment']
+                postid = request.form['updatepost'][2:]
+                utils.createcomment(postid,user,comment)
+                return redirect(url_for('viewposts'))
+            # from viewposts homepage, user click "Edit post"
+            elif updatepostinput == "ep":
+                postid = request.form['updatepost'][2:]
+                post = utils.getpost(postid)
+                return render_template('editpost.html',postid = postid, post = post, user = user)
+            elif updatepostinput == "dp":
+                postid = request.form['updatepost'][2:]
                 utils.deletepost(postid)
                 return redirect(url_for('viewposts'))
-            elif request.form.has_key("makecomment"):
-                postid = request.form['makecomment']
-                return redirect("/create_comment/{}".format(postid))
+            elif updatepostinput == "up":
+                postid = request.form['updatepost'][2:]
+                print(postid)
+                post = request.form['editpost']
+                utils.editpost(postid,user,post)
+                return redirect(url_for('viewposts'))
+            else:
+                return redirect(url_for('login'))
         else:
             return redirect(url_for('login'))
 
@@ -74,19 +93,6 @@ def createcomment(postid):
         postid = request.form['updatepost']
         newcommentid = utils.nextcommentid(postid)
         utils.createcomment(postid,newcommentid,user,post)
-        return redirect('/view_posts')
-
-
-@app.route("/edit_post/<postid>",methods = ["GET","POST"])
-def editpost(postid):
-    user = session['username']
-    if request.method == "GET":
-        post = utils.getpost(postid)
-        return render_template('editpost.html',postid = postid, user = user, post = post)
-    else:
-        post = request.form['editpost']
-        postid = request.form['updatepost']
-        utils.editpost(postid,user,post)
         return redirect('/view_posts')
 
 @app.route("/create_account",methods = ["GET","POST"])

@@ -1,46 +1,34 @@
 {% extends "master.html" %}
 
 {% block body %}
-<h2>Add new post:</h2>
-<form method="POST" id="newpost">
-	<textarea form="newpost" name="posttext" id="textpost" rows=10 cols=90 placeholder="Enter new post &hellip; if you dare!"></textarea>
-	<br>
-	<button type="submit" name="updatepost" value="createpost">Bloginate!</button>
-</form>
-<!--POST FEED-->
-<hr>
+<div class="feed">
+	<h2>Add new post:</h2>
+	<form method="POST" id="newpost">
+<textarea form="newpost" name="posttext" id="textpost" rows=10 cols=90 placeholder="Enter new post &hellip; if you dare!"></textarea>
+<br>
+<button type="submit" name="updatepost" value="createpost">Bloginate!</button>
+	</form>
+
+	<!--POST FEED-->
+	<hr>
 {% for post in posts %}
-	<p>
-	{% print post['post'] %}
-	</p>
-	<font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post['username'] }}>
-	    {% print post['username'] %}
-	</a>
-	<br>
-	{% print post['timestamp'] %}
-	</font>
-<br><br>
+
+
+<p>
+{% print post["post"] %}
+</p>
+<font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post["username"] }}>{% print post["username"] %}</a> <br>
+{% print post["timestamp"] %} </font>
+<br> <br>
 
 <!--POST OPTIONS-->
 <form method="POST">
-<button type="submit" name="editpost" value={{ post[0] }}>Edit post</button>
-<button type="submit" name="deletepost" value={{ post[0] }}>Delete post</button>
-<button type="submit" name="makecomment" value={{ post[0] }}>Write a comment</button>
+<button type="submit" name="updatepost" value="ep{{ post["_id"] }}">Edit post</button>
+<button type="submit" name="updatepost" value="dp{{ post["_id"] }}">Delete post</button>
+<button type="submit" name="updatepost" value="wc{{ post["_id"] }}">Write a comment</button>
 </form>
 <br>
 
-<div class="comments">
-{% if post|length > 4 %}
-	{% for i in range(4,post|length) %}
-	<b><a class="username" href={{ "user/" + post[i][2] }}>
-		{% print post[i][2] %}:
-	</a></b>
-	{% print post[i][1] %}
-	<br><br>
-	{% endfor %}
-{% endif %}
-</div>
 <hr>
-
 {% endfor %}
 {% endblock %}
