@@ -33,14 +33,14 @@ def logout():
 def viewposts():
     if request.method == "GET":
         posts = utils.displayposts()
-        if len(session.keys())!=0:
-            user=session[session.keys()[0]]
+        if utils.checksession(session):
+            user=session['username']
         else:
             user=''
         return render_template('view_posts.html',posts = posts, user=user)
     else:
-        if len(session.keys())!=0:
-            user = session[session.keys()[0]]
+        if utils.checksession(session):
+            user=session['username']
             updatepostinput = request.form['updatepost'][0:2]
             print(updatepostinput)
             # create a post when the button "Bloginate!" is clicked

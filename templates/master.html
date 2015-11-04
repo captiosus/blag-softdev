@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Bloginator 37 000 000 000</title>
-    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
   </head>
 
   <div class="container">
@@ -10,10 +10,10 @@
     <div id="banner">
       <a class="h1" href="/"><h1><b>Bloginator 37 000 000 000</b></h1></a>
     </div>
-	
+
     <ul class="nav">
       <li class="nav3"><a class="nav" href="/">Home</a></li>
-      {% if user %}
+      {% if user != "" %}
       <li class="nav"><a class="nav" href="logout">Logout</a></li>
       <li class="nav2">&nbsp;&nbsp;Signed in as {{user}}</li>
       {% else %}
@@ -22,7 +22,7 @@
       <li class="nav2">&nbsp;&nbsp;Not signed in</li>
      {% endif %}
     </ul>
-    
+
   </head>
   <body>
     <div class="feed">

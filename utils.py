@@ -43,7 +43,6 @@ def displayposts():
     postscomments = []
     for post in allposts:
         postid = post['_id']
-        print(postid)
         comments = commentsbyid(postid)
         post['comment'] = comments
         postscomments.append(post)
@@ -66,7 +65,13 @@ def createcomment(postid,username,comment):
 
 def finduserposts(username):
     userposts = db.post.find({'$query': {"username": username}, '$orderby': {'timestamp':-1}})
-    return userposts
+    postscomments = []
+    for post in userposts:
+        postid = post['_id']
+        comments = commentsbyid(postid)
+        post['comment'] = comments
+        postscomments.append(post)
+    return postscomments
 
 def is_number(s):
     try:

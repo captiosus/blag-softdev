@@ -16,7 +16,7 @@
 <p>{% print post['post'] %}</p>
 <font size="2" color="gray">Posted by <a class="username" href={{ "user/" + post['username'] }}>
     {% print post['username'] %}</a><br>
-  {% print post['timestamp'] %} 
+  {% print post['timestamp'] %}
 </font>
 <br><br>
 
@@ -26,7 +26,7 @@
   <b><a class="username" href={{ "user/" + comment['username'] }}>{% print comment['username'] %}:</a></b>
   {% print comment['comment'] %}
   <br>
-  {% endfor %}	
+  {% endfor %}
 </div>
 <hr>
 {% endfor %}
